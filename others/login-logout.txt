@@ -1,0 +1,1 @@
+https://stackoverflow.com/questions/31799843/how-to-replace-login-with-logout-when-a-user-is-logged-in

@@ -1,0 +1,17 @@
+﻿.modal-header h2{
+    text-align:center;
+}
+.modal-body img{
+    margin:0 auto;
+}
+
+.modal-body h3{
+    color:#028158;
+}
+.modal-body h4{
+    text-align:center;
+    font-weight:bold;
+}
+.modal-body a{
+    text-decoration:underline;
+}
