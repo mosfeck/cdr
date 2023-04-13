@@ -151,8 +151,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="row">
             <div class="col-sm-3"></div>
             <div class="col-sm-6 mx-auto">
-                <h2>User Add</h2>
-                <p>Please fill this form to create an account.</p>
+                <h2 class="text-center">User Add</h2>
+                <!-- <p class="text-center">Please fill this form to create an account.</p> -->
                 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="POST">
 
                     <div class="row">
@@ -271,12 +271,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             </div>
                         </div>
                     </div>
-
-                    <div class="form-group">
-                        <input type="submit" class="btn btn-primary" value="Submit">
-                        <!-- <input type="reset" class="btn btn-default" value="Reset"> -->
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 form-control-label label-padding"></div>
+                        <div class="col-lg-8 col-md-8 col-sm-8">
+                            <div class="form-group">
+                                <input type="submit" class="btn btn-primary" value="Submit">
+                                <!-- <input type="reset" class="btn btn-default" value="Reset"> -->
+                            </div>
+                            <p>Already have an account?<a href="login.php"> Login here</a>.</p>
+                        </div>
                     </div>
-                    <p>Already have an account?<a href="login.php"> Login here</a>.</p>
                 </form>
             </div>
             <div class="col-sm-3"></div>

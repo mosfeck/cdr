@@ -8,7 +8,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
     header("location: login.php");
     exit;
 }
-$name = $email = $phone = $designation = $department =  $password = $confirm_password = "";
+$id = $name = $email = $phone = $designation = $department =  $password = $confirm_password = "";
 //prepare a select statement
 $sql = "SELECT * from user_manage WHERE email=:email";
 if ($stmt = $pdo->prepare($sql)) {
@@ -22,7 +22,7 @@ if ($stmt = $pdo->prepare($sql)) {
     if ($stmt->execute()) {
         if ($stmt->rowCount() == 1) {
             if ($row = $stmt->fetch()) {
-                // $id = $row["id"];
+                $id = $row["id"];
                 $phone = $row["phone"];
                 $designation = $row["designation"];
                 $department = $row["department"];
@@ -40,6 +40,7 @@ if ($stmt = $pdo->prepare($sql)) {
 }
 //close statement
 unset($stmt);
+unset($pdo);
 ?>
 
 <!DOCTYPE html>
@@ -128,8 +129,9 @@ unset($stmt);
                         </div>
                     </div>
                     <p>
-                        <a href="update-user.php" class="btn btn-warning">Update User</a>
-                        <a href="delete-user.php" class="btn btn-danger">Delete User</a>
+                        <a href="update_user.php?id=<?php echo $id; ?>" class="btn btn-warning">Update User</a>
+                        <a href="delete_user.php?id=<?php echo $id; ?>" onclick="return confirm('Are you sure you want to Delete?')" title="Delete" class="btn btn-danger">Delete User</a>
+                        <!-- <a href="delete_user.php?id=<?php echo $id; ?>" class="btn btn-danger">Delete User</a> -->
                     </p>
                     <p>
                         <!-- <a href="reset-password.php" class="btn btn-warning">Reset Your Password</a> -->

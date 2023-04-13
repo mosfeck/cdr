@@ -7,10 +7,14 @@ $name = $email = $phone = $designation = $department =  $password = $confirm_pas
 // $status = 0;
 $name_err = $email_err = $phone_err = $designation_err = $department_err = $status_err = $password_err = $confirm_password_err = "";
 // $name_err = $password_err = $confirm_password_err = "";
-
+// echo 'check';exit;
 // Processing form data when form is submitted
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
+// if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // print_r($_SERVER["REQUEST_METHOD"]);exit;
+    // echo $_POST["email"];exit;
+if(isset($_POST["email"]) && !empty($_POST["email"]))
+{
+    
     // Validate email
     if (empty(trim($_POST["email"]))) {
         $email_err = "Please enter a email.";
@@ -40,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Close statement
         unset($stmt);
     }
-
+    unset($pdo);
     // Validate name
     if (empty(trim($_POST["name"]))) {
         $name_err = "Please enter a name.";
@@ -76,25 +80,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $confirm_password_err = "Password did not match.";
         }
     }
-
+    try{
     // Check input errors before inserting in database
-    if (empty($name_err) && empty($phone_err) && empty($email_err) && empty($password_err) && empty($confirm_password_err)) {
+    if (empty($name_err) && empty($phone_err) && empty($email_err) && empty($password_err) && empty($confirm_password_err)) 
+    {
         if (isset($_POST['status'])) {
             $status = $_POST['status'];
-            // echo "You selected $gender";
         }
-        // Prepare an insert statement
-        // $sql = "INSERT INTO user_manage (`name`,  email, phone, designation, department, `status`) VALUES (:name, :password, :email, :phone, :designation, :department, :status)";
-        $sql = "UPDATE user_manage SET `name` = :name, email = :email, phone = :phone, designation = :designation, department = :department, `status` = :status WHERE email = :email";
+        // Prepare an update statement
+        $sql = "UPDATE user_manage SET `name` = :name,  phone = :phone, designation = :designation, department = :department, `status` = :status WHERE email = :email";
         if ($stmt = $pdo->prepare($sql)) {
             // Bind variables to the prepared statement as parameters
-            $stmt->bindParam(":name", $param_name, PDO::PARAM_STR);
-            $stmt->bindParam(":email", $param_email, PDO::PARAM_STR);
-            $stmt->bindParam(":phone", $param_phone, PDO::PARAM_STR);
-            $stmt->bindParam(":designation", $param_designation, PDO::PARAM_STR);
-            $stmt->bindParam(":department", $param_department, PDO::PARAM_STR);
-            $stmt->bindParam(":status", $param_status, PDO::PARAM_STR);
+            $stmt->bindParam(":name", $param_name);
+            $stmt->bindParam(":email", $param_email);
+            $stmt->bindParam(":phone", $param_phone);
+            $stmt->bindParam(":designation", $param_designation);
+            $stmt->bindParam(":department", $param_department);
+            $stmt->bindParam(":status", $param_status);
+            // $stmt->bindParam(":password", $param_password);
 
+            // old 
+            // $stmt->bindParam(":name", $param_name, PDO::PARAM_STR);
+            // $stmt->bindParam(":email", $param_email, PDO::PARAM_STR);
+            // $stmt->bindParam(":phone", $param_phone, PDO::PARAM_STR);
+            // $stmt->bindParam(":designation", $param_designation, PDO::PARAM_STR);
+            // $stmt->bindParam(":department", $param_department, PDO::PARAM_STR);
+            // $stmt->bindParam(":status", $param_status, PDO::PARAM_STR);
+            // $stmt->bindParam(":password", $param_password, PDO::PARAM_STR);
             // Set parameters
             $param_name = $name;
             $param_email = $email;
@@ -104,11 +116,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $param_status = (int)$status;
             // echo $param_status;
             // exit;
-            $param_password = password_hash($password, PASSWORD_DEFAULT); // Creates a password hash
+            // $param_password = password_hash($password, PASSWORD_DEFAULT); // Creates a password hash
 
             // Attempt to execute the prepared statement
             if ($stmt->execute()) {
-                echo "Sign up successtuly";
+                echo "Sign up successfuly";
                 // Redirect to login page
                 header("location: login.php");
             } else {
@@ -119,9 +131,63 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Close statement
         unset($stmt);
     }
-
+}
+catch(Exception $e){
+    die("ERROR: Could not able to execute $sql. " . $e->getMessage());
+}
     // Close connection
     unset($pdo);
+} else {
+    try {
+        // echo $_GET["id"];exit;
+        // Check existence of id parameter before processing further
+        if (isset($_GET["id"]) && !empty($_GET["id"])) {
+
+            // Get URL parameter
+            $id = trim($_GET["id"]);
+
+            $sql = "select * from user_manage where id = :id";
+
+            if ($stmt = $pdo->prepare($sql)) {
+                // Bind variables to the prepared statement as parameters
+                $stmt->bindParam(":id", $param_id);
+
+                $param_id = $id;
+                // echo $param_id;exit;
+                // Attempt to execute the prepared statement
+                if ($stmt->execute()) {
+                    if ($stmt->rowCount() == 1) {
+                        /* Fetch result row as an associative array. Since the result set 
+                        contains only one row, we don't need to use while loop */
+                        $row = $stmt->Fetch(PDO::FETCH_ASSOC);
+
+                        // Retrieve individual field value
+                        $name = $row["name"];
+                        // echo $name;exit;
+                        $id = $row["id"];
+                        $phone = $row["phone"];
+                        $designation = $row["designation"];
+                        $department = $row["department"];
+                        $status = (int)$row["status"];
+                    } else {
+                        // URL doesn't contain valid id. Redirect to error page
+                        echo "internal error";
+                        //header("location: error.php");
+                        exit();
+                    }
+                } else {
+                    echo "Oops! Something went wrong. Please try again later.";
+                }
+            }
+            // Close statement
+            unset($stmt);
+
+            // Close connection
+            unset($pdo);
+        }
+    } catch (Exception $e) {
+        die("ERROR: Could not able to execute $sql. " . $e->getMessage());
+    }
 }
 ?>
 
@@ -150,8 +216,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="row">
             <div class="col-sm-3"></div>
             <div class="col-sm-6 mx-auto">
-                <h2>User Edit</h2>
-                <p>Please fill this form to create an account.</p>
+                <h2 class="text-center">User Edit</h2>
+                <!-- <p class="text-center">Please fill this form to create an account.</p> -->
                 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="POST">
 
                     <div class="row">
@@ -167,19 +233,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </div>
                     </div>
 
-
-                    <div class="row">
+                    <!-- <div class="row">
                         <div class="col-lg-4 col-md-4 col-sm-4 form-control-label label-padding">
                             <label>Email</label>
                             <span class="text-danger ml-1">*</span>
                         </div>
                         <div class="col-lg-8 col-md-8 col-sm-8">
-                            <div class="form-group  <?php echo (!empty($email_err)) ? 'has-error' : ''; ?>">
+                            <div class="form-group  <?php //echo (!empty($email_err)) ? 'has-error' : ''; ?>">
                                 <input type="text" name="email" class="form-control" value="<?php echo $email; ?>">
-                                <span class="help-block"><?php echo $email_err; ?></span>
+                                <span class="help-block"><?php //echo $email_err; ?></span>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
 
                     <div class="row">
                         <div class="col-lg-4 col-md-4 col-sm-4 form-control-label label-padding">
@@ -227,55 +292,63 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <div class="col-lg-8 col-md-8 col-sm-8">
                             <div class="form-group  <?php echo (!empty($status_err)) ? 'has-error' : ''; ?>">
                                 <select name="status" class="form-control">
-                                    <?php
-                                    $status_opt = array(
-                                        "" => "Select",
-                                        "1" => "Active",
-                                        "0" => "Inactive"
-                                    );
+                                <option value="">Select</option>
+                                <option value="1" <?php if($status == '1') { echo 'selected'; } ?>>Active</option>
+                                <option value="0" <?php if($status == '0') { echo 'selected'; } ?>>Inactive</option>
+                                    <!-- <?php
+                                    // $status_opt = array(
+                                    //     "" => "Select",
+                                    //     "1" => "Active",
+                                    //     "0" => "Inactive"
+                                    // );
 
-                                    // loop through the options to create the <option> tags
-                                    foreach ($status_opt as $key => $status) {
-                                        echo "<option value=\"$key\">$status</option>";
-                                    }
-                                    ?>
+                                    // // loop through the options to create the <option> tags
+                                    // foreach ($status_opt as $key => $status) {
+                                    //     echo "<option value=\"$key\">$status</option>";
+                                    // }
+                                    ?> -->
                                 </select>
                                 <span class="help-block"><?php echo $status_err; ?></span>
                             </div>
                         </div>
                     </div>
 
-                    <div class="row">
+                    <!-- <div class="row">
                         <div class="col-lg-4 col-md-4 col-sm-4 form-control-label label-padding">
                             <label>Password</label>
                             <span class="text-danger ml-1">*</span>
                         </div>
                         <div class="col-lg-8 col-md-8 col-sm-8">
-                            <div class="form-group  <?php echo (!empty($password_err)) ? 'has-error' : ''; ?>">
-                                <input type="password" name="password" class="form-control" value="<?php echo $password; ?>">
-                                <span class="help-block"><?php echo $password_err; ?></span>
+                            <div class="form-group  <?php //echo (!empty($password_err)) ? 'has-error' : ''; ?>">
+                                <input type="password" name="password" class="form-control" value="<?php //echo $password; ?>">
+                                <span class="help-block"><?php //echo $password_err; ?></span>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
 
-                    <div class="row">
+                    <!-- <div class="row">
                         <div class="col-lg-4 col-md-4 col-sm-4 form-control-label label-padding">
                             <label>Confirm Password</label>
                             <span class="text-danger ml-1">*</span>
                         </div>
                         <div class="col-lg-8 col-md-8 col-sm-8">
-                            <div class="form-group  <?php echo (!empty($confirm_password_err)) ? 'has-error' : ''; ?>">
+                            <div class="form-group  <?php //echo (!empty($confirm_password_err)) ? 'has-error' : ''; ?>">
                                 <input type="password" name="confirm_password" class="form-control" value="<?php echo $confirm_password; ?>">
-                                <span class="help-block"><?php echo $confirm_password_err; ?></span>
+                                <span class="help-block"><?php //echo $confirm_password_err; ?></span>
                             </div>
                         </div>
+                    </div> -->
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 form-control-label label-padding"></div>
+                        <div class="col-lg-8 col-md-8 col-sm-8">
+                            <div class="form-group">
+                            <input type="hidden" name="id" value="<?php echo $id; ?>"/>
+                                <input type="submit" class="btn btn-primary" value="Submit">
+                                <!-- <input type="reset" class="btn btn-default" value="Reset"> -->
+                            </div>
+                            <p>Already have an account?<a href="login.php"> Login here</a>.</p>
+                        </div>
                     </div>
-
-                    <div class="form-group">
-                        <input type="submit" class="btn btn-primary" value="Submit">
-                        <!-- <input type="reset" class="btn btn-default" value="Reset"> -->
-                    </div>
-                    <p>Already have an account?<a href="login.php"> Login here</a>.</p>
                 </form>
             </div>
             <div class="col-sm-3"></div>
