@@ -58,6 +58,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $email_err = "Please enter a valid email";
     }
 
+    // Validate phone
+    if (empty(trim($_POST["designation"]))) {
+        $designation_err = "Please enter a designation.";
+    } else {
+        $designation = trim($_POST["designation"]);
+    }
+
+    // Validate phone
+    if (empty(trim($_POST["department"]))) {
+        $department_err = "Please enter a department.";
+    } else {
+        $department = trim($_POST["department"]);
+    }
+
     // Validate password
     if (empty(trim($_POST["password"]))) {
         $password_err = "Please enter a password.";
@@ -151,7 +165,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="row">
             <div class="col-sm-3"></div>
             <div class="col-sm-6 mx-auto">
-                <h2 class="text-center">User Add</h2>
+                <h2 class="text-center">Create User</h2>
                 <!-- <p class="text-center">Please fill this form to create an account.</p> -->
                 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="POST">
 

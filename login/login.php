@@ -75,7 +75,7 @@ if($_SERVER["REQUEST_METHOD"]=="POST")
                             // echo $_SESSION["email"];exit;
                             $_SESSION["name"] = $name;
                             // echo $_SESSION["name"];exit;
-                			echo "Login successfuly";
+                			// echo "Login successfuly";
 
                 			//redirect user to welcome page
                 			header("location: welcome.php");
@@ -127,8 +127,8 @@ if($_SERVER["REQUEST_METHOD"]=="POST")
 </head>
 <body>
 	<div class="wrapper">
-        <h2>Login</h2>
-        <p>Please fill in your credentials to login.</p>
+        <h2 class="text-center">Login</h2>
+        <!-- <p>Please fill in your credentials to login.</p> -->
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
             <div class="form-group <?php echo (!empty($email_err)) ? 'has-error' : ''; ?>">
                 <label>Email</label>

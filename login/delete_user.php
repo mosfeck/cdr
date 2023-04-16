@@ -55,9 +55,9 @@ if (isset($_GET["id"]) && !empty($_GET["id"])) {
             {
                 if($stmt->rowCount() == 1)
                 {
-                	if($row = $stmt->fetch())
-                	{
-                		$id = $row["id"];
+                	// if($row = $stmt->fetch())
+                	// {
+                		// $id = $row["id"];
                 		
                         // echo $name;exit;
                         // print_r($name);exit;
@@ -75,17 +75,18 @@ if (isset($_GET["id"]) && !empty($_GET["id"])) {
                             // echo $_SESSION["email"];exit;
                             // $_SESSION["name"] = $name;
                             // echo $_SESSION["name"];exit;
-                			// echo "Login successfully";
+                			// echo "Deleted data successfully";
 
                 			//redirect user to welcome page
                 			header("location: login.php");
+                            // exit;
                 		// }
                 		// else
                 		// {
                 		// 	//display an error message if password is not valid
                 		// 	$password_err="The password you entered was not correct";
                 		// }
-                	}
+                	// }
                 }
                 else
                 {
