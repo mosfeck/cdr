@@ -42,15 +42,8 @@ if ($stmt = $pdo->prepare($sql)) {
 unset($stmt);
 unset($pdo);
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <title>Welcome</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
-    <style type="text/css">
+<?php include('header.php'); ?>
+<style type="text/css">
         body {
             font: 14px sans-serif;
             /* text-align: center;  */
@@ -59,26 +52,32 @@ unset($pdo);
         .page-header{
             text-align: center;
         }
+        h1{
+            border-bottom: 1px solid;
+        }
+        .row{
+            margin: 5px;
+        }
+        .action_button{
+            margin-top: 15px;
+        }
     </style>
-</head>
 
-<body>
+
     <div class="container">
-
-
         <div class="page-header">
             <h1>Hi, <b><?php echo htmlspecialchars($_SESSION["name"]); ?></b></h1>
         </div>
-        <div class="body ">
+        <div class="body ">                         
             <div class="row">
                 <div class="col-sm-3"></div>
                 <div class="col-sm-6 mx-auto">
 
                     <div class="row ">
-                        <div class="col-lg-2 col-md-2 col-sm-2 ">
+                        <div class="col-lg-4 col-md-4 col-sm-4 ">
                             <label>Email</label>
                         </div>
-                        <div class="col-lg-6 col-md-6 col-sm-4">
+                        <div class="col-lg-8 col-md-8 col-sm-8">
                             <div class="form-group">
                                 <?php echo $_SESSION['email']; ?>
                             </div>
@@ -86,10 +85,10 @@ unset($pdo);
                     </div>
 
                     <div class="row ">
-                        <div class="col-lg-2 col-md-2 col-sm-2 ">
+                        <div class="col-lg-4 col-md-4 col-sm-4 ">
                             <label>Phone</label>
                         </div>
-                        <div class="col-lg-6 col-md-6 col-sm-4">
+                        <div class="col-lg-8 col-md-8 col-sm-8">
                             <div class="form-group">
                                 <?php echo $phone; ?>
                             </div>
@@ -97,10 +96,10 @@ unset($pdo);
                     </div>
 
                     <div class="row ">
-                        <div class="col-lg-2 col-md-2 col-sm-2 ">
+                        <div class="col-lg-4 col-md-4 col-sm-4 ">
                             <label>Designation</label>
                         </div>
-                        <div class="col-lg-6 col-md-6 col-sm-4">
+                        <div class="col-lg-8 col-md-8 col-sm-8">
                             <div class="form-group">
                                 <?php echo isset($designation) ? $designation : ""; ?>
                             </div>
@@ -108,10 +107,10 @@ unset($pdo);
                     </div>
 
                     <div class="row ">
-                        <div class="col-lg-2 col-md-2 col-sm-2 ">
+                        <div class="col-lg-4 col-md-4 col-sm-4 ">
                             <label>Department</label>
                         </div>
-                        <div class="col-lg-6 col-md-6 col-sm-4">
+                        <div class="col-lg-8 col-md-8 col-sm-8">
                             <div class="form-group">
                                 <?php echo isset($department) ? $department : ''; ?>
                             </div>
@@ -119,23 +118,23 @@ unset($pdo);
                     </div>
 
                     <div class="row ">
-                        <div class="col-lg-2 col-md-2 col-sm-2 ">
+                        <div class="col-lg-4 col-md-4 col-sm-4 ">
                             <label>Status</label>
                         </div>
-                        <div class="col-lg-6 col-md-6 col-sm-4">
+                        <div class="col-lg-8 col-md-8 col-sm-8">
                             <div class="form-group">
                                 <?php echo $status==1 ? 'Active':'Inactive'; ?>
                             </div>
                         </div>
                     </div>
-                    <p>
+                    <p class="action_button">
                         <a href="update_user.php?id=<?php echo $id; ?>" class="btn btn-warning">Update User</a>
-                        <a href="delete_user.php?id=<?php echo $id; ?>" onclick="return confirm('Are you sure you want to Delete?')" title="Delete" class="btn btn-danger">Delete User</a>
+                        <a href="delete_user.php?id=<?php echo $id; ?>" onclick="return confirm('Are you sure you want to Delete?')" title="Delete" class="btn btn-danger">Delete User</a><br />
                         <!-- <a href="delete_user.php?id=<?php echo $id; ?>" class="btn btn-danger">Delete User</a> -->
-                    </p>
-                    <p>
+                    <!-- </p> -->
+                    <!-- <p> -->
                         <!-- <a href="reset-password.php" class="btn btn-warning">Reset Your Password</a> -->
-                        <a href="logout.php" class="btn btn-danger">Sign Out of Your Account</a>
+                        <a href="logout.php" class="btn btn-danger mt-1">Sign Out of Your Account</a>
                     </p>
                 </div>
                 <div class="col-sm-3"></div>
@@ -143,6 +142,4 @@ unset($pdo);
 
         </div>
     </div>
-</body>
-
-</html>
+    <?php include('footer.php'); ?>

@@ -138,16 +138,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Close connection
     unset($pdo);
 }
+include('header.php');
 ?>
 
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html>
 
 <head>
     <title>Sign Up</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
 
-    <style type="text/css">
+    
+</head>
+
+<body>
+     -->
+<style type="text/css">
         body {
             font: 14px sans-serif;
         }
@@ -157,10 +163,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             padding: 20px;
             margin: auto;
         }
+        .row{
+            margin: 5px;
+        }
     </style>
-</head>
-
-<body>
     <div class="container">
         <div class="row">
             <div class="col-sm-3"></div>
@@ -301,6 +307,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
 
     </div>
+<!--     
 </body>
 
-</html>
+</html> -->
+<?php include('footer.php') ?>
