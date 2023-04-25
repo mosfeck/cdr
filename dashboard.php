@@ -23,6 +23,7 @@ if ($stmt = $pdo->prepare($sql)) {
         if ($stmt->rowCount() == 1) {
             if ($row = $stmt->fetch()) {
                 $id = $row["id"];
+                $name = $row["name"];
                 $phone = $row["phone"];
                 $designation = $row["designation"];
                 $department = $row["department"];
@@ -44,12 +45,19 @@ unset($pdo);
 ?>
 <?php include('header.php'); ?>
 <style type="text/css">
-        body {
-            font: 14px sans-serif;
-            /* text-align: center;  */
-            /*margin: 0 auto;*/
-        }
-        .page-header{
+    .user-info {
+        background-color: blue;
+        /* font: 14px sans-serif; */
+    }
+
+    .body {
+        padding: 15px;
+    }
+
+    .card-img-bottom{
+        width: 30%;
+    }
+    /*.page-header{
             text-align: center;
         }
         h1{
@@ -60,19 +68,76 @@ unset($pdo);
         }
         .action_button{
             margin-top: 15px;
-        }
-    </style>
+        } */
+</style>
 
 
-    <div class="container">
-        <div class="page-header">
-            <h1>Hi, <b><?php echo htmlspecialchars($_SESSION["name"]); ?></b></h1>
+<div class="container-fluid">
+    <div class="row clearfix">
+        <div class="col-lg-3 col-md-6 col-sm-12">
+            <div class="card widget_2 big_icon user-info">
+                <div class="card-body">
+                    <h5 class="card-title">User Manage</h5>
+                    <img class="card-img-bottom" src="img/user-icon.png" alt="user image">
+                </div>
+            </div>
         </div>
-        <div class="body ">                         
-            <div class="row">
-                <div class="col-sm-3"></div>
-                <div class="col-sm-6 mx-auto">
 
+        <div class="col-lg-3 col-md-6 col-sm-12">
+            <div class="card widget_2 big_icon sales">
+                <div class="body">
+                    <h6>Sales</h6>
+                    <h2>12% <small class="info">of 100</small></h2>
+                    <small>6% higher than last month</small>
+                    <div class="progress">
+                        <div class="progress-bar l-blue" role="progressbar" aria-valuenow="38" aria-valuemin="0" aria-valuemax="100" style="width: 38%;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-12">
+            <div class="card widget_2 big_icon email">
+                <div class="body">
+                    <h6>Email</h6>
+                    <h2>39 <small class="info">of 100</small></h2>
+                    <small>Total Registered email</small>
+                    <div class="progress">
+                        <div class="progress-bar l-purple" role="progressbar" aria-valuenow="39" aria-valuemin="0" aria-valuemax="100" style="width: 39%;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-12">
+            <div class="card widget_2 big_icon domains">
+                <div class="body">
+                    <h6>Domains</h6>
+                    <h2>8 <small class="info">of 10</small></h2>
+                    <small>Total Registered Domain</small>
+                    <div class="progress">
+                        <div class="progress-bar l-green" role="progressbar" aria-valuenow="89" aria-valuemin="0" aria-valuemax="100" style="width: 89%;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- user info -->
+    <div class="row  mt-5">
+        <div class="col-lg-3 col-md-6 col-sm-12">
+            <div class="card widget_2 big_icon user-info">
+                <div class="card-body">
+                    <h5 class="card-title">User Info</h5>
+
+                    <div class="row ">
+                        <div class="col-lg-4 col-md-4 col-sm-4 ">
+                            <label>Name</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-8">
+                            <div class="form-group">
+                                <?php echo $name; ?>
+                            </div>
+                        </div>
+                    </div>
                     <div class="row ">
                         <div class="col-lg-4 col-md-4 col-sm-4 ">
                             <label>Email</label>
@@ -123,23 +188,18 @@ unset($pdo);
                         </div>
                         <div class="col-lg-8 col-md-8 col-sm-8">
                             <div class="form-group">
-                                <?php echo $status==1 ? 'Active':'Inactive'; ?>
+                                <?php echo $status == 1 ? 'Active' : 'Inactive'; ?>
                             </div>
                         </div>
                     </div>
-                    <p class="action_button">
-                        <a href="update_user.php?id=<?php echo $id; ?>" class="btn btn-warning">Update User</a>
-                        <a href="delete_user.php?id=<?php echo $id; ?>" onclick="return confirm('Are you sure you want to Delete?')" title="Delete" class="btn btn-danger">Delete User</a><br />
-                        <!-- <a href="delete_user.php?id=<?php echo $id; ?>" class="btn btn-danger">Delete User</a> -->
-                    <!-- </p> -->
-                    <!-- <p> -->
-                        <!-- <a href="reset-password.php" class="btn btn-warning">Reset Your Password</a> -->
-                        <a href="logout.php" class="btn btn-danger mt-1">Sign Out of Your Account</a>
-                    </p>
+
                 </div>
-                <div class="col-sm-3"></div>
             </div>
+        </div>
+
+        <div class="col-lg-9 col-md-12 col-sm-12">
 
         </div>
     </div>
-    <?php include('footer.php'); ?>
+</div>
+<?php include('footer.php'); ?>

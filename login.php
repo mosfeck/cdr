@@ -70,7 +70,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             // echo "Login successfuly";
 
                             //redirect user to welcome page
-                            header("location: welcome.php");
+                            header("location: dashboard.php");
                         } else {
                             //display an error message if password is not valid
                             $password_err = "The password you entered was not correct";
@@ -106,7 +106,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     .wrapper {
         /* width: 350px;  */
         padding: 20px;
-        margin: 0 auto;
+        margin: auto;
     }
 
     .form-group {
@@ -120,45 +120,56 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 
 <body>
-    <div class="container">
-        <h2 class="text-center">Login</h2>
-        <div class="row">
-            <div class="col-md-3"></div>
-            <div class="col-md-6">
-                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
+    <!-- <div class="d-flex align-items-center justify-content-center"> -->
+    <div class="container mx-auto">
+        <!-- <div class="d-flex align-items-center justify-content-center" style="width: 1200px;"> -->
 
-                    <div class="form-group <?php echo (!empty($email_err)) ? 'has-error' : ''; ?>">
-                        <div class="row">
-                            <div class="col-md-2">
-                                <label>Email</label>
-                            </div>
-                            <div class="col-md-10">
-                                <input type="text" name="email" class="form-control col-md-8" value="<?php echo $email; ?>">
-                                <span class="help-block"><?php echo $email_err; ?></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group <?php echo (!empty($password_err)) ? 'has-error' : ''; ?>">
-                        <div class="row">
-                            <div class="col-md-2">
-                                <label>Password</label>
-                            </div>
-                            <div class="col-md-10">
-                                <input type="password" name="password" class="form-control">
-                                <span class="help-block"><?php echo $password_err; ?></span>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div class="form-group">
-                        <input type="submit" class="btn btn-primary" value="Login">
+        <div class="row ">
+            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3"></div>
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="text-center">Login</h2>
+                        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
+
+                            <div class="form-group <?php echo (!empty($email_err)) ? 'has-error' : ''; ?>">
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <label>Email</label>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <input type="text" name="email" class="form-control col-md-8" value="<?php echo $email; ?>">
+                                        <span class="help-block"><?php echo $email_err; ?></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group <?php echo (!empty($password_err)) ? 'has-error' : ''; ?>">
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <label>Password</label>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <input type="password" name="password" class="form-control">
+                                        <span class="help-block"><?php echo $password_err; ?></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <div class="form-group">
+                                    <input type="submit" class="btn btn-primary" value="Login">
+                                </div>
+                                <p>Don't have an account? <a href="register.php">Sign up now</a>.</p>
+                            </div>
+                        </form>
                     </div>
-                    <p>Don't have an account? <a href="register.php">Sign up now</a>.</p>
-                </form>
+                </div>
             </div>
-            <div class="col-md-3"></div>
+            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3"></div>
         </div>
+        <!-- </div> -->
     </div>
+    <!-- </div> -->
 
     <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>
