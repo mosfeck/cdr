@@ -90,14 +90,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     unset($pdo);
 }
 ?>
-<?php include('header.php'); ?>
-<!-- <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
 	<meta charset="UTF-8">
 	<title>Login</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css"> -->
+    <link rel="shortcut icon" type="image/x-icon" href="img/favicon-96x96.png">
 <style type="text/css">
     body {
         font: 14px sans-serif;
@@ -111,10 +110,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     .form-group {
         margin: 10px;
+        padding: 5px;
     }
 
     label {
         margin-bottom: 5px;
+    }
+    .card-body img{
+        width: 150%;
     }
 </style>
 </head>
@@ -130,7 +133,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
                 <div class="card">
                     <div class="card-body">
-                        <h2 class="text-center">Login</h2>
+                        <!-- <h2 class="text-center">Login</h2> -->
+                        <div class="card-header">
+                        <img class="img-fluid" src="img/logon-logo3.png" alt="login image">
+                        </div>
                         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
 
                             <div class="form-group <?php echo (!empty($email_err)) ? 'has-error' : ''; ?>">
@@ -171,7 +177,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
     <!-- </div> -->
 
-    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>
-</html> -->
-    <?php include('footer.php'); ?>
+</html>

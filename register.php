@@ -154,159 +154,166 @@ include('header.php');
 <body>
      -->
 <style type="text/css">
-        body {
-            font: 14px sans-serif;
-        }
+    body {
+        font: 14px sans-serif;
+    }
 
-        .wrapper {
-            /* width: 990px; */
-            padding: 20px;
-            margin: auto;
-        }
-        .row{
-            margin: 5px;
-        }
-    </style>
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-3"></div>
-            <div class="col-sm-6 mx-auto">
-                <h2 class="text-center">Create User</h2>
-                <!-- <p class="text-center">Please fill this form to create an account.</p> -->
-                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="POST">
+    .wrapper {
+        /* width: 990px; */
+        padding: 20px;
+        margin: auto;
+    }
 
-                    <div class="row">
-                        <div class="col-lg-4 col-md-4 col-sm-4 form-control-label label-padding">
-                            <label>Name</label>
-                            <span class="text-danger ml-1">*</span>
-                        </div>
-                        <div class="col-lg-8 col-md-8 col-sm-8">
-                            <div class="form-group  <?php echo (!empty($name_err)) ? 'has-error' : ''; ?>">
-                                <input type="text" name="name" class="form-control" value="<?php echo $name; ?>">
-                                <span class="help-block"><?php echo $name_err; ?></span>
+    .row {
+        margin: 5px;
+    }
+</style>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-6 mx-auto">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title text-center">Create User</div>
+                </div>
+                <div class="card-body">
+                    <!-- <p class="text-center">Please fill this form to create an account.</p> -->
+                    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="POST">
+
+                        <div class="row">
+                            <div class="col-lg-4 col-md-4 col-sm-4 form-control-label label-padding">
+                                <label>Name</label>
+                                <span class="text-danger ml-1">*</span>
+                            </div>
+                            <div class="col-lg-8 col-md-8 col-sm-8">
+                                <div class="form-group  <?php echo (!empty($name_err)) ? 'has-error' : ''; ?>">
+                                    <input type="text" name="name" class="form-control" value="<?php echo $name; ?>">
+                                    <span class="help-block"><?php echo $name_err; ?></span>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
 
-                    <div class="row">
-                        <div class="col-lg-4 col-md-4 col-sm-4 form-control-label label-padding">
-                            <label>Email</label>
-                            <span class="text-danger ml-1">*</span>
-                        </div>
-                        <div class="col-lg-8 col-md-8 col-sm-8">
-                            <div class="form-group  <?php echo (!empty($email_err)) ? 'has-error' : ''; ?>">
-                                <input type="text" name="email" class="form-control" value="<?php echo $email; ?>">
-                                <span class="help-block"><?php echo $email_err; ?></span>
+                        <div class="row">
+                            <div class="col-lg-4 col-md-4 col-sm-4 form-control-label label-padding">
+                                <label>Email</label>
+                                <span class="text-danger ml-1">*</span>
+                            </div>
+                            <div class="col-lg-8 col-md-8 col-sm-8">
+                                <div class="form-group  <?php echo (!empty($email_err)) ? 'has-error' : ''; ?>">
+                                    <input type="text" name="email" class="form-control" value="<?php echo $email; ?>">
+                                    <span class="help-block"><?php echo $email_err; ?></span>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="row">
-                        <div class="col-lg-4 col-md-4 col-sm-4 form-control-label label-padding">
-                            <label>Phone</label>
-                            <span class="text-danger ml-1">*</span>
-                        </div>
-                        <div class="col-lg-8 col-md-8 col-sm-8">
-                            <div class="form-group  <?php echo (!empty($phone_err)) ? 'has-error' : ''; ?>">
-                                <input type="text" name="phone" class="form-control" value="<?php echo $phone; ?>">
-                                <span class="help-block"><?php echo $phone_err; ?></span>
+                        <div class="row">
+                            <div class="col-lg-4 col-md-4 col-sm-4 form-control-label label-padding">
+                                <label>Phone</label>
+                                <span class="text-danger ml-1">*</span>
+                            </div>
+                            <div class="col-lg-8 col-md-8 col-sm-8">
+                                <div class="form-group  <?php echo (!empty($phone_err)) ? 'has-error' : ''; ?>">
+                                    <input type="text" name="phone" class="form-control" value="<?php echo $phone; ?>">
+                                    <span class="help-block"><?php echo $phone_err; ?></span>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="row">
-                        <div class="col-lg-4 col-md-4 col-sm-4 form-control-label label-padding">
-                            <label>Designation</label>
-                        </div>
-                        <div class="col-lg-8 col-md-8 col-sm-8">
-                            <div class="form-group  <?php echo (!empty($designation_err)) ? 'has-error' : ''; ?>">
-                                <input type="text" name="designation" class="form-control" value="<?php echo $designation; ?>">
-                                <span class="help-block"><?php echo $designation_err; ?></span>
+                        <div class="row">
+                            <div class="col-lg-4 col-md-4 col-sm-4 form-control-label label-padding">
+                                <label>Designation</label>
+                            </div>
+                            <div class="col-lg-8 col-md-8 col-sm-8">
+                                <div class="form-group  <?php echo (!empty($designation_err)) ? 'has-error' : ''; ?>">
+                                    <input type="text" name="designation" class="form-control" value="<?php echo $designation; ?>">
+                                    <span class="help-block"><?php echo $designation_err; ?></span>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="row">
-                        <div class="col-lg-4 col-md-4 col-sm-4 form-control-label label-padding">
-                            <label>Department</label>
-                            <span class="text-danger ml-1">*</span>
-                        </div>
-                        <div class="col-lg-8 col-md-8 col-sm-8">
-                            <div class="form-group  <?php echo (!empty($department_err)) ? 'has-error' : ''; ?>">
-                                <input type="text" name="department" class="form-control" value="<?php echo $department; ?>">
-                                <span class="help-block"><?php echo $department_err; ?></span>
+                        <div class="row">
+                            <div class="col-lg-4 col-md-4 col-sm-4 form-control-label label-padding">
+                                <label>Department</label>
+                                <span class="text-danger ml-1">*</span>
+                            </div>
+                            <div class="col-lg-8 col-md-8 col-sm-8">
+                                <div class="form-group  <?php echo (!empty($department_err)) ? 'has-error' : ''; ?>">
+                                    <input type="text" name="department" class="form-control" value="<?php echo $department; ?>">
+                                    <span class="help-block"><?php echo $department_err; ?></span>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="row">
-                        <div class="col-lg-4 col-md-4 col-sm-4 form-control-label label-padding">
-                            <label>Status</label>
-                            <span class="text-danger ml-1">*</span>
-                        </div>
-                        <div class="col-lg-8 col-md-8 col-sm-8">
-                            <div class="form-group  <?php echo (!empty($status_err)) ? 'has-error' : ''; ?>">
-                                <select name="status" class="form-control">
-                                    <?php
-                                    $status_opt = array(
-                                        "" => "Select",
-                                        "1" => "Active",
-                                        "0" => "Inactive"
-                                    );
+                        <div class="row">
+                            <div class="col-lg-4 col-md-4 col-sm-4 form-control-label label-padding">
+                                <label>Status</label>
+                                <span class="text-danger ml-1">*</span>
+                            </div>
+                            <div class="col-lg-8 col-md-8 col-sm-8">
+                                <div class="form-group  <?php echo (!empty($status_err)) ? 'has-error' : ''; ?>">
+                                    <select name="status" class="form-control">
+                                        <?php
+                                        $status_opt = array(
+                                            "" => "Select",
+                                            "1" => "Active",
+                                            "0" => "Inactive"
+                                        );
 
-                                    // loop through the options to create the <option> tags
-                                    foreach ($status_opt as $key => $status) {
-                                        echo "<option value=\"$key\">$status</option>";
-                                    }
-                                    ?>
-                                </select>
-                                <span class="help-block"><?php echo $status_err; ?></span>
+                                        // loop through the options to create the <option> tags
+                                        foreach ($status_opt as $key => $status) {
+                                            echo "<option value=\"$key\">$status</option>";
+                                        }
+                                        ?>
+                                    </select>
+                                    <span class="help-block"><?php echo $status_err; ?></span>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="row">
-                        <div class="col-lg-4 col-md-4 col-sm-4 form-control-label label-padding">
-                            <label>Password</label>
-                            <span class="text-danger ml-1">*</span>
-                        </div>
-                        <div class="col-lg-8 col-md-8 col-sm-8">
-                            <div class="form-group  <?php echo (!empty($password_err)) ? 'has-error' : ''; ?>">
-                                <input type="password" name="password" class="form-control" value="<?php echo $password; ?>">
-                                <span class="help-block"><?php echo $password_err; ?></span>
+                        <div class="row">
+                            <div class="col-lg-4 col-md-4 col-sm-4 form-control-label label-padding">
+                                <label>Password</label>
+                                <span class="text-danger ml-1">*</span>
+                            </div>
+                            <div class="col-lg-8 col-md-8 col-sm-8">
+                                <div class="form-group  <?php echo (!empty($password_err)) ? 'has-error' : ''; ?>">
+                                    <input type="password" name="password" class="form-control" value="<?php echo $password; ?>">
+                                    <span class="help-block"><?php echo $password_err; ?></span>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="row">
-                        <div class="col-lg-4 col-md-4 col-sm-4 form-control-label label-padding">
-                            <label>Confirm Password</label>
-                            <span class="text-danger ml-1">*</span>
-                        </div>
-                        <div class="col-lg-8 col-md-8 col-sm-8">
-                            <div class="form-group  <?php echo (!empty($confirm_password_err)) ? 'has-error' : ''; ?>">
-                                <input type="password" name="confirm_password" class="form-control" value="<?php echo $confirm_password; ?>">
-                                <span class="help-block"><?php echo $confirm_password_err; ?></span>
+                        <div class="row">
+                            <div class="col-lg-4 col-md-4 col-sm-4 form-control-label label-padding">
+                                <label>Confirm Password</label>
+                                <span class="text-danger ml-1">*</span>
+                            </div>
+                            <div class="col-lg-8 col-md-8 col-sm-8">
+                                <div class="form-group  <?php echo (!empty($confirm_password_err)) ? 'has-error' : ''; ?>">
+                                    <input type="password" name="confirm_password" class="form-control" value="<?php echo $confirm_password; ?>">
+                                    <span class="help-block"><?php echo $confirm_password_err; ?></span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-4 col-md-4 col-sm-4 form-control-label label-padding"></div>
-                        <div class="col-lg-8 col-md-8 col-sm-8">
-                            <div class="form-group">
-                                <input type="submit" class="btn btn-primary" value="Submit">
-                                <!-- <input type="reset" class="btn btn-default" value="Reset"> -->
+                        <div class="row">
+                            <div class="col-lg-4 col-md-4 col-sm-4 form-control-label label-padding"></div>
+                            <div class="col-lg-8 col-md-8 col-sm-8">
+                                <div class="form-group">
+                                    <input type="submit" class="btn btn-primary" value="Submit">
+                                    <!-- <input type="reset" class="btn btn-default" value="Reset"> -->
+                                </div>
+                                <p>Already have an account?<a href="login.php"> Login here</a>.</p>
                             </div>
-                            <p>Already have an account?<a href="login.php"> Login here</a>.</p>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
-            <div class="col-sm-3"></div>
         </div>
-
+        <div class="col-sm-3"></div>
     </div>
+
+</div>
 <!--     
 </body>
 
