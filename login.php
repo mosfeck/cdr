@@ -92,34 +92,41 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ?>
 <!DOCTYPE html>
 <html>
+
 <head>
-	<meta charset="UTF-8">
-	<title>Login</title>
+    <meta charset="UTF-8">
+    <title>Login</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="shortcut icon" type="image/x-icon" href="img/favicon-96x96.png">
-<style type="text/css">
-    body {
-        font: 14px sans-serif;
-    }
+    <style type="text/css">
+        body {
+            font: 14px sans-serif;
+        }
 
-    .wrapper {
-        /* width: 350px;  */
-        padding: 20px;
-        margin: auto;
-    }
+        .form-group {
+            margin: 10px;
+            padding: 5px;
+        }
 
-    .form-group {
-        margin: 10px;
-        padding: 5px;
-    }
+        label {
+            margin-bottom: 5px;
+        }
 
-    label {
-        margin-bottom: 5px;
-    }
-    .card-body img{
-        width: 150%;
-    }
-</style>
+        .card-body img {
+            width: 150%;
+        }
+
+        .center-item {
+            text-align: center;
+        }
+        .center-item .center-align{
+            display: block;
+            margin: 0 auto;
+        } 
+        .card-header{
+            background-color: #fff;
+        }
+    </style>
 </head>
 
 <body>
@@ -135,7 +142,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="card-body">
                         <!-- <h2 class="text-center">Login</h2> -->
                         <div class="card-header">
-                        <img class="img-fluid" src="img/logon-logo3.png" alt="login image">
+                            <img class="img-fluid" src="img/logon-logo3.png" alt="login image">
                         </div>
                         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
 
@@ -162,10 +169,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 </div>
                             </div>
                             <div class="card-footer">
-                                <div class="form-group">
-                                    <input type="submit" class="btn btn-primary" value="Login">
+                                <div class="row">
+                                    <!-- <div class="col-lg-2 col-md-2 col-sm-2 form-control-label "></div> -->
+                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                        <div class="center-item">
+                                            <div class="form-group">
+                                                <input type="submit" class="btn btn-primary center-align" value="Login">
+                                                <p class="center-align mt-2">Don't have an account? <a href="create_user.php">Sign up now</a>.</p>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <p>Don't have an account? <a href="register.php">Sign up now</a>.</p>
                             </div>
                         </form>
                     </div>
@@ -179,4 +193,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>
+
 </html>

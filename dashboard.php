@@ -1,3 +1,53 @@
+<?php include('header.php'); ?>
+<link rel="stylesheet" href="css/style.css" type="text/css">
+<style type="text/css">
+    .user-info {
+        background-color: blue;
+    }
+
+    .user-info .row{
+        margin: 10px 0px;
+    }
+
+    .body {
+        padding: 15px;
+    }
+
+    /* .card-img-bottom{
+        width: 30%;
+    } */
+    /* .center-item {
+        text-align: center;
+
+    } */
+
+    .center-item .card-title .card-img-alignright {
+        display: block;
+        margin: 0 auto;
+    }
+
+    a {
+        color: #fff;
+        text-decoration: none;
+    }
+
+    .card-img-alignright {
+        width: 30%;
+    }
+
+    .missed {
+        text-align: center;
+        /* background-color: red; */
+    }
+
+    .domains {
+        text-align: center;
+        /* background-color: green; */
+    }
+    .top-space{
+        margin-top: 30px;
+    }
+</style>
 <?php
 // Initialize the session
 session_start();
@@ -93,67 +143,12 @@ if ($stmt = $pdo->prepare($sql)) {
 // unset($stmt);
 // unset($pdo);
 ?>
-<?php include('header.php'); ?>
-<style type="text/css">
-    .user-info {
-        background-color: blue;
-        /* font: 14px sans-serif; */
-    }
 
-    .body {
-        padding: 15px;
-    }
-
-    /* .card-img-bottom{
-        width: 30%;
-    } */
-    .center-item {
-        text-align: center;
-
-    }
-
-    .center-item .card-title .card-img-alignright {
-        display: block;
-        margin: 0 auto;
-    }
-
-    a {
-        color: #fff;
-        text-decoration: none;
-    }
-
-    .card-img-alignright {
-        width: 30%;
-    }
-
-    .jumbotron {
-        text-align: center;
-        padding: 30px;
-        background-color: blue;
-        margin-bottom: 50px;
-    }
-
-    .missed {
-        text-align: center;
-        /* background-color: red; */
-    }
-
-    .domains {
-        text-align: center;
-        /* background-color: green; */
-    }
-</style>
 
 
 <div class="container">
-    <div class="row">
-        <div class="col-lg-12 col-md-12 col-sm-12">
-            <div class="jumbotron">
-                <h1>Welcome to Missed Call Solution</h1>
-            </div>
-        </div>
-    </div>
-    <div class="row clearfix">
+    
+    <div class="row clearfix ">
         <div class="col-lg-4 col-md-12 col-sm-12">
             <div class="card widget_2 big_icon user-info bg-success">
                 <div class="card-body center-item">
@@ -191,7 +186,7 @@ if ($stmt = $pdo->prepare($sql)) {
     </div>
 
     <!-- user info -->
-    <div class="row  mt-5">
+    <div class="row  top-space">
         <div class="col-lg-4 col-md-12 col-sm-12">
             <div class="card widget_2 big_icon user-info">
                 <div class="card-body">
@@ -271,7 +266,7 @@ if ($stmt = $pdo->prepare($sql)) {
             //prepare a select statement
             $sql = "SELECT * from cdr ORDER BY calldate DESC limit 20 ";
             $result = $pdo->query($sql); { ?>
-                <div class="table-responsive">
+                <div class="table-responsive mb-3 pb-3">
                     <table class="table table-bordered table-striped table-hovered" id="cdr-table">
                         <thead>
                             <tr class="table-success">
@@ -316,5 +311,12 @@ if ($stmt = $pdo->prepare($sql)) {
         </div>
     </div>
 </div>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
 
+<script>
+    $(document).ready(function() {
+        $('#cdr-table').DataTable();
+    });
+</script>
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
 <?php include('footer.php'); ?>

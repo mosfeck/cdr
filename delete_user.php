@@ -78,7 +78,7 @@ if (isset($_GET["id"]) && !empty($_GET["id"])) {
                 			// echo "Deleted data successfully";
 
                 			//redirect user to welcome page
-                			header("location: login.php");
+                			header("location: user.php");
                             // exit;
                 		// }
                 		// else

@@ -15,9 +15,9 @@
         text-align: center;
     }
 
-    h1 {
+    /* h1 {
         border-bottom: 1px solid;
-    }
+    } */
 
     .row {
         margin: 5px;
@@ -35,6 +35,9 @@
         display: initial;
         margin: 0 auto;
     }
+    .top-space{
+        margin-top: 30px;
+    }
 </style>
 <?php
 // Initialize the session
@@ -50,11 +53,16 @@ $id = $name = $email = $phone = $designation = $department =  $password = $confi
 //prepare a select statement
 $sql = "SELECT * from user_manage";
 $result = $pdo->query($sql); { ?>
-    <div class="container">
-        <div class="row mt-5">
+    <div class="container ">
+        <div class="row ">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <a href="create_user.php" class="btn btn-primary">Create User</a> 
+            </div>
+        </div>
+        <div class="row mt-3 mb-5 pb-3">
             <div class="col-lg-12 col-md-12 col-sm-12 ">
                 <div class="table-responsive">
-                    <table class="table table-bordered table-striped table-hover" id="user-table">
+                    <table class="table table-bordered table-striped table-hover " id="user-table">
                         <thead>
                             <tr class="table-success">
                                 <th> Action </th>
@@ -72,8 +80,8 @@ $result = $pdo->query($sql); { ?>
                             $sl = 1;
                             foreach ($result as $row) { ?>
                                 <tr <?php echo $sl % 2 == 0 ? ' class="table-info"' : 'class="table-success"'; ?>>
-                                    <td style="max-width: 60px;"><a href="update_user.php?id=<?php echo $id; ?>" title="Edit"><img src="img/edit.png" alt="edit image" style="width:15%;margin-right: 5px;"></a>
-                                        <a href="delete_user.php?id=<?php echo $id; ?>" onclick="return confirm('Are you sure you want to Delete?')" title="Delete"><img src="img/clear.png" alt="edit image" style="width:15%"></a>
+                                    <td style="max-width: 60px;"><a href="update_user.php?id=<?php echo $row['id']; ?>" title="Edit"><img src="img/edit.png" alt="edit image" style="width:15%;margin-right: 5px;"></a>
+                                        <a href="delete_user.php?id=<?php echo $row['id']; ?>" onclick="return confirm('Are you sure you want to Delete?')" title="Delete"><img src="img/clear.png" alt="edit image" style="width:15%"></a>
                                     </td>
                                     <td><?php echo $sl++; ?></td>
                                     <td><?php echo $row['name']; ?></td>

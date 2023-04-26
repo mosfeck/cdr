@@ -57,36 +57,39 @@
 </footer> -->
 
 <style>
-    .footer {
-        position: fixed;
-        bottom: 0;
-        width: 100%;
-        height: 40px; /* adjust the height as needed */
-        background-color: #333;
-        color: #fff;
-        text-align: left;
-        padding-top: 20px;
-      }
-      .agileinfo_copy_right_left{
-        float: left;
-      }
-      .agileinfo_copy_right_right{
-        float: right;
-      }
+  .footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 30px;
+    font-size:x-small;
+    /* adjust the height as needed */
+    background-color: #333;
+    color: #fff;
+    text-align: left;
+    padding: 10px 0px;
+  }
+
+  .agileinfo_copy_right_left {
+    float: left;
+  }
+
+  .agileinfo_copy_right_right {
+    float: right;
+  }
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-<footer class="footer mt-auto py-3 bg-light">
-                    <div class="container">
-                        <div class="agileinfo_copy_right_left pull-left">
-                            <p>Developed & Powered by BDCOM Online Ltd.</p>
-                        </div>
-                        <div class="agileinfo_copy_right_right pull-right">
-                            <p><a href="http://www.bdcom.com" target="_blank">BDCOM</a></p>
-                        </div>
-
-                    </div>
-                </footer>
+<footer class="footer mt-auto bg-light">
+  <div class="container">
+    <div class="agileinfo_copy_right_left pull-left">
+      <p>Developed & Powered by BDCOM Online Ltd.</p>
+    </div>
+    <div class="agileinfo_copy_right_right pull-right">
+      <p><a href="http://www.bdcom.com" target="_blank">BDCOM</a></p>
+    </div>
+  </div>
+</footer>
 </body>
 
 </html>

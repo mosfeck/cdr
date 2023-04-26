@@ -1,3 +1,14 @@
+<?php include('header.php'); ?>
+<link rel="stylesheet" href="css/style.css" type="text/css">
+<style type="text/css">
+    .row {
+        margin: 10px;
+    }
+    .card-title{
+        font-size: xx-large;
+    }
+</style>
+
 <?php
 // Include config file
 require_once "config.php";
@@ -125,7 +136,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if ($stmt->execute()) {
                 echo "Sign up successtuly";
                 // Redirect to login page
-                header("location: login.php");
+                header("location: user.php");
             } else {
                 echo "Something went wrong. Please try again later.";
             }
@@ -138,7 +149,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Close connection
     unset($pdo);
 }
-include('header.php');
+
 ?>
 
 <!-- <!DOCTYPE html>
@@ -153,21 +164,9 @@ include('header.php');
 
 <body>
      -->
-<style type="text/css">
-    body {
-        font: 14px sans-serif;
-    }
 
-    .wrapper {
-        /* width: 990px; */
-        padding: 20px;
-        margin: auto;
-    }
 
-    .row {
-        margin: 5px;
-    }
-</style>
+
 <div class="container">
     <div class="row">
         <div class="col-sm-3"></div>
@@ -177,7 +176,6 @@ include('header.php');
                     <div class="card-title text-center">Create User</div>
                 </div>
                 <div class="card-body">
-                    <!-- <p class="text-center">Please fill this form to create an account.</p> -->
                     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="POST">
 
                         <div class="row">
@@ -296,14 +294,16 @@ include('header.php');
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-lg-4 col-md-4 col-sm-4 form-control-label label-padding"></div>
-                            <div class="col-lg-8 col-md-8 col-sm-8">
-                                <div class="form-group">
-                                    <input type="submit" class="btn btn-primary" value="Submit">
-                                    <!-- <input type="reset" class="btn btn-default" value="Reset"> -->
+                        <div class="card-footer">
+                            <div class="row">
+                                <!-- <div class="col-lg-4 col-md-4 col-sm-4 form-control-label label-padding"></div> -->
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <div class="form-group center-item">
+                                        <input type="submit" class="btn btn-primary center-align" value="Submit">
+                                        <p class="mt-2">Already have an account?<a href="login.php"> Login here</a>.</p>
+                                    </div>
+
                                 </div>
-                                <p>Already have an account?<a href="login.php"> Login here</a>.</p>
                             </div>
                         </div>
                     </form>
