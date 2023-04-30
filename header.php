@@ -4,9 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Missed Call Solution</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
+    <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="css/jquery.dataTables.css" rel="stylesheet" type="text/css">
+    <script src="js/jquery.js" ></script>
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous"> -->
+    <!-- <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script> -->
     <link rel="shortcut icon" type="image/x-icon" href="img/kotha-transparent.png">
+    
     <style>
         body {
             color: #fff;
@@ -35,7 +39,7 @@
                             <div class="navbar-nav">
                                 <a class="nav-link active" aria-current="page" href="dashboard.php">Dashboard</a>
                                 <a class="nav-link" href="#">Summary</a>
-                                <a class="nav-link" href="#">Missed Call</a>
+                                <a class="nav-link" href="missed_call.php">Missed Call</a>
                                 <a class="nav-link" href="user.php">Users</a>
                                 <a class="nav-link" href="logout.php">Logout</a>
                             </div>

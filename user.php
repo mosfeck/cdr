@@ -106,12 +106,12 @@ $result = $pdo->query($sql); { ?>
 unset($pdo);
 ?>
 
-<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
+<!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" /> -->
 
 <script>
     $(document).ready(function() {
         $('#user-table').DataTable();
     });
 </script>
-<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
+<!-- <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script> -->
 <?php include('footer.php'); ?>
