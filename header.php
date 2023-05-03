@@ -18,7 +18,7 @@
         .jumbotron {
         text-align: center;
         padding: 30px;
-        background-color: blue;
+        /* background-color: #7FFFD4; */
         margin: 30px 0px;
     }
     </style>
@@ -38,8 +38,8 @@
                         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                             <div class="navbar-nav">
                                 <a class="nav-link active" aria-current="page" href="dashboard.php">Dashboard</a>
-                                <a class="nav-link" href="#">Summary</a>
                                 <a class="nav-link" href="missed_call.php">Missed Call</a>
+                                <a class="nav-link" href="missed_call_summary.php">Summary</a>
                                 <a class="nav-link" href="user.php">Users</a>
                                 <a class="nav-link" href="logout.php">Logout</a>
                             </div>
@@ -52,7 +52,7 @@
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12">
                 <div class="jumbotron">
-                    <h1>Welcome to Missed Call Solution</h1>
+                    <h3>Welcome to Missed Call Solution</h3>
                 </div>
             </div>
         </div>

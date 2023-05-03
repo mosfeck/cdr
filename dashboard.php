@@ -2,9 +2,19 @@
 <link rel="stylesheet" href="css/style.css" type="text/css">
 <style type="text/css">
     .user-info {
-        background-color: blue;
+        background-color: #F0FFFF;
+        color: #000;
     }
 
+    .first-item-color{
+        background-color: #F5F5DC;
+    }
+    .second-item-color{
+        background-color: #FFFFE0;
+    }
+    .third-item-color{
+        background-color: #90EF90;
+    }
     .user-info .row{
         margin: 10px 0px;
     }
@@ -27,7 +37,7 @@
     }
 
     a {
-        color: #fff;
+        /* color: #fff; */
         text-decoration: none;
     }
 
@@ -150,7 +160,7 @@ if ($stmt = $pdo->prepare($sql)) {
     
     <div class="row clearfix ">
         <div class="col-lg-4 col-md-12 col-sm-12">
-            <div class="card widget_2 big_icon user-info bg-success">
+            <div class="card widget_2 big_icon user-info first-item-color">
                 <div class="card-body center-item">
                     <a href="user.php">
                         <h5 class="card-title">User Manage</h5>
@@ -160,7 +170,7 @@ if ($stmt = $pdo->prepare($sql)) {
             </div>
         </div>
         <div class="col-lg-4 col-md-12 col-sm-12">
-            <div class="card widget_2 big_icon missed bg-warning">
+            <div class="card widget_2 big_icon missed second-item-color">
                 <div class="body">
                     <h5>Today Missed Call
                         <strong>
@@ -172,7 +182,7 @@ if ($stmt = $pdo->prepare($sql)) {
             </div>
         </div>
         <div class="col-lg-4 col-md-12 col-sm-12">
-            <div class="card widget_2 big_icon domains bg-info">
+            <div class="card widget_2 big_icon domains third-item-color">
                 <div class="body">
                     <h5>Today API Call
                         <strong>

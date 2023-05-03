@@ -1,44 +1,8 @@
 <?php include('header.php'); ?>
-<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.3.2/css/tempusdominus-bootstrap-4.min.css" integrity="sha512-guEcIlwzfs7V3qKjy7cG1HioTH03t0yhBO5d5cbtX9D5Qz1bL5gkFz1yB40wYrgRJa7NNzbodQccRVV3c9fZ8A==" crossorigin="anonymous" referrerpolicy="no-referrer" /> -->
 <style type="text/css">
     body {
         font: 14px sans-serif;
         color: #fff;
-        /* text-align: center;  */
-        /*margin: 0 auto;*/
-    }
-
-    table {
-        color: #fff;
-    }
-
-    .page-header {
-        text-align: center;
-    }
-
-    /* h1 {
-        border-bottom: 1px solid;
-    } */
-
-    .row {
-        margin: 5px;
-    }
-
-    .action_button {
-        margin-top: 15px;
-    }
-
-    .h-center {
-        text-align: center;
-    }
-
-    .h-center .btn {
-        display: initial;
-        margin: 0 auto;
-    }
-
-    .top-space {
-        margin-top: 30px;
     }
 </style>
 <?php
@@ -53,118 +17,80 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
 }
 
 // Set session
-// session_start();
 $uniqueid = $calldate_from = $calldate_to = '';
-if (isset($_POST['records-limit'])) {
-    $_SESSION['records-limit'] = $_POST['records-limit'];
-}
-if(isset($_POST['submit']))
-{
-    $uniqueid=$_POST['uniqueid'];
-    $calldate_from=$_POST['calldate_from'];
-    $calldate_to=$_POST['calldate_to'];
+
+if (isset($_POST['submit'])) {
+    $uniqueid = $_POST['uniqueid'];
+    $calldate_from = $_POST['calldate_from'];
+    $calldate_to = $_POST['calldate_to'];
 }
 
 $conn = new mysqli('localhost', 'root', 'password', 'kothacdr');
-// $results = array();
-$limit = isset($_SESSION['records-limit']) ? $_SESSION['records-limit'] : 10;
-$page = (isset($_GET['page']) && is_numeric($_GET['page'])) ? $_GET['page'] : 1;
-$paginationStart = ($page - 1) * $limit;
-$sql = '';
-$sqlCount = '';
-$allRecords = 0;
-if (empty($_POST['uniqueid']) && empty($_POST['calldate_from']) && empty($_POST['calldate_to'])) {
-    $sql = "SELECT * from cdr where calldate between DATE('y-m-d 00:00:00') AND DATE('y-m-d 23:59:59')";
+
+if (isset($_GET['page_no']) && $_GET['page_no'] != "") {
+    $page_no = $_GET['page_no'];
 } else {
+    $page_no = 1;
+}
 
-    // $wheres = array();
-    $sql = "SELECT * FROM cdr WHERE 1";
-    $sqlCount = "SELECT count(*) FROM cdr WHERE 1";
-
+$total_records_per_page = 10;
+// $page = (isset($_GET['page']) && is_numeric($_GET['page'])) ? $_GET['page'] : 1;
+if (isset($_POST['submit']) && $_POST['submit'] == 'Search') {
+    $sql = "SELECT * from cdr WHERE 1";
     if (isset($_POST['uniqueid']) && !empty($_POST['uniqueid'])) {
         $sql .= " AND uniqueid like '{$_POST['uniqueid']}' ";
-        $sqlCount .= " AND uniqueid like '{$_POST['uniqueid']}' ";
     }
-    
     if (isset($_POST['calldate_from']) && !empty($_POST['calldate_from']) && (isset($_POST['calldate_to']) && !empty($_POST['calldate_to']))) {
         $sql .= " AND calldate  between '" . $_POST['calldate_from'] . " 00:00:00' and '" . $_POST['calldate_to'] . " 23:59:59' ";
-        $sqlCount .= " AND calldate  between '" . $_POST['calldate_from'] . " 00:00:00' and '" . $_POST['calldate_to'] . " 23:59:59' ";
     }
-    // echo $sql;exit;
-    $sql .= "LIMIT $paginationStart, $limit";
-
-    // $sql = "SELECT * from cdr where ";
-    // $sqlCount = "SELECT count(*) from cdr where ";
-    // // print_r($_POST['uniqueid']);exit;
-    // if (isset($_POST['uniqueid']) and !empty($_POST['uniqueid'])) {
-    //     $wheres[] = "uniqueid like '{$_POST['uniqueid']}'";
-    // }
-
-    // if (isset($_POST['calldate_from']) and !empty($_POST['calldate_from']) && (isset($_POST['calldate_to']) and !empty($_POST['calldate_to']))) {
-    //     $wheres[] = "calldate  between '" . $_POST['calldate_from'] . " 00:00:00' and '" . $_POST['calldate_to'] . " 23:59:59' ";
-    // }
-
-    // foreach ($wheres as $where) {
-    //     $sql .= $where . ' AND ';   //  you may want to make this an OR
-    //     $sqlCount .= $where . ' AND ';
-    // }
-    // $sql = rtrim(substr($sql, 0, -5) . " LIMIT $paginationStart, $limit");
-
-    // $sqlCount = rtrim($sqlCount, ' AND');
-    // echo $sql;exit;
-
-    // print_r($result);exit;    
+    $_SESSION['search_cdr'] = $sql;
+    $_SESSION['currentPage'] = $page_no;
+} elseif (isset($_GET['page_no'])  && isset($_SESSION['search_cdr']) && $_SESSION['search_cdr'] != '') {
+    $sql = $_SESSION['search_cdr'];
+    $page_no = $_GET['page_no'];
+} else {
+    $sql = "SELECT * from cdr where calldate between '" . date('y-m-d') . " 00:00:00' AND '" . date('y-m-d') . " 23:59:59';";
+    unset($_SESSION['search_cdr']);
+    $_SESSION['search_cdr'] = $sql;
 }
-// echo $sql;exit;
-$results = $conn->query($sql);
-// print_r($results);exit;
+//echo $sql;// exit;
 
-if (!$results) {
-    die("Query failed: " . $conn->error);
-}
-// $allRecords =  mysqli_num_rows($results);
-// echo $allRecords;exit;
-if ($sqlCount !== "") {
-    $all_results = $conn->query($sqlCount);
-    $row = mysqli_fetch_row($all_results);
-    if (!$all_results) {
-        die("Query failed: " . $conn->error);
-    }
+$offset = ($page_no - 1) * $total_records_per_page;
+$previous_page = $page_no - 1;
+$next_page = $page_no + 1;
+$adjacents = "2";
 
-    $allRecords = $row[0];
-}
-// echo $allRecords;exit;
+$result_count = mysqli_query($con, $sql);
+$total_records = mysqli_num_rows($result_count);
+$total_no_of_pages = ceil($total_records / $total_records_per_page);
+$second_last = $total_no_of_pages - 1; // total page minus 1
 
-// Calculate total pages
-$totoalPages = ceil($allRecords / $limit);
-// Prev + Next
-$prev = $page - 1;
-$next = $page + 1;
+$sqlSelect = $sql . ' LIMIT ' . $offset . ', ' . $total_records_per_page;
+// echo $sqlSelect;
+$results = $conn->query($sqlSelect);
+// print_r($result1);exit;
 ?>
 <div class="container ">
     <div class="row mt-3 mb-5 pb-3">
         <div class="col-lg-12 col-md-12 col-sm-12 ">
             <div class="card">
-                <!-- <div class="card-header">
-                    <div class="card-title text-center">CDR Search</div>
-                </div> -->
                 <div class="card-body">
                     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="POST">
 
                         <div class="row">
                             <div class="col-lg-3 col-md-3 col-sm-3">
                                 <div class="form-group">
-                                    <input type="text" name="uniqueid" class="form-control" value = "<?php echo (isset($uniqueid))?$uniqueid:'';?>" placeholder="Unique Id">
+                                    <input type="text" name="uniqueid" class="form-control" value="<?php echo (isset($uniqueid)) ? $uniqueid : ''; ?>" placeholder="Unique Id">
                                 </div>
                             </div>
                             <div class="col-lg-3 col-md-3 col-sm-3">
                                 <div class="form-group">
-                                    <input name="calldate_from" class="form-control datetimepicker" value = "<?php echo (isset($calldate_from))?$calldate_from:'';?>" type="date">
+                                    <input name="calldate_from" class="form-control datetimepicker" value="<?php echo (isset($calldate_from)) ? $calldate_from : ''; ?>" type="date">
                                 </div>
                             </div>
                             <div class="col-lg-3 col-md-3 col-sm-3">
                                 <div class="form-group">
-                                    <input name="calldate_to" class="form-control datetimepicker" value = "<?php echo (isset($calldate_to))?$calldate_to:'';?>"  type="date">
+                                    <input name="calldate_to" class="form-control datetimepicker" value="<?php echo (isset($calldate_to)) ? $calldate_to : ''; ?>" type="date">
                                 </div>
                             </div>
                             <div class="col-lg-3 col-md-3 col-sm-3">
@@ -193,50 +119,106 @@ $next = $page + 1;
                     <tbody>
                         <?php
                         $sl = 1;
-                        foreach ($results as $row) {
+                        if ($results) {
+                            foreach ($results as $row) {
                         ?>
-                            <tr <?php echo $sl % 2 == 0 ? ' class="table-info"' : 'class="table-success"'; ?>>
-
-                                <td><?php echo $sl++; ?></td>
-                                <td><?php echo $row['uniqueid']; ?></td>
-                                <td><?php echo $row['calldate']; ?></td>
-                                <td><?php echo $row['srcmain']; ?></td>
-                                <td><?php echo $row['apiTime']; ?></td>
-                                <td><?php echo $row['apiCalling'] == 1 ? 'Yes' : 'No'; ?></td>
+                                <tr <?php echo $sl % 2 == 0 ? ' class="table-info"' : 'class="table-success"'; ?>>
+                                    <td><?php echo $sl++; ?></td>
+                                    <td><?php echo $row['uniqueid']; ?></td>
+                                    <td><?php echo $row['calldate']; ?></td>
+                                    <td><?php echo $row['srcmain']; ?></td>
+                                    <td><?php echo $row['apiTime']; ?></td>
+                                    <td><?php echo $row['apiCalling'] == 1 ? 'Yes' : 'No'; ?></td>
+                                </tr>
+                            <?php
+                                // unset($pdo);
+                            }
+                        } else { ?>
+                            <tr>
+                                <td colspan="10" class="text-center">No Information Found</td>
                             </tr>
-                        <?php
-                            // unset($pdo);
-                        } ?>
+                        <?php } ?>
                     </tbody>
                 </table>
+                <div style='padding: 10px 20px 0px; border-top: dotted 1px #CCC;'>
+                    <strong>Page <?php echo $page_no . " of " . $total_no_of_pages; ?></strong>
+                </div>
                 <!-- Pagination -->
                 <nav aria-label="Page navigation example mt-5">
-                    <ul class="pagination justify-content-center">
-                        <li class="page-item <?php if ($page <= 1) {
-                                                    echo 'disabled';
-                                                } ?>">
-                            <a class="page-link" href="<?php if ($page <= 1) {
-                                                            echo '#';
-                                                        } else {
-                                                            echo "?page=" . $prev;
-                                                        } ?>">Previous</a>
+                    <ul class="pagination">
+                        <?php // if($page_no > 1){ echo "<li><a href='?page_no=1'>First Page</a></li>"; } 
+                        ?>
+
+                        <li <?php if ($page_no <= 1) {
+                                echo "class='disabled'";
+                            } ?>>
+                            <a <?php if ($page_no > 1) {
+                                    echo "href='?page_no=$previous_page'";
+                                } ?>>Previous</a>
                         </li>
-                        <?php for ($i = 1; $i <= $totoalPages; $i++) : ?>
-                            <li class="page-item <?php if ($page == $i) {
-                                                        echo 'active';
-                                                    } ?>">
-                                <a class="page-link" href="missed_call.php?page=<?= $i; ?>"> <?= $i; ?> </a>
-                            </li>
-                        <?php endfor; ?>
-                        <li class="page-item <?php if ($page >= $totoalPages) {
-                                                    echo 'disabled';
-                                                } ?>">
-                            <a class="page-link" href="<?php if ($page >= $totoalPages) {
-                                                            echo '#';
-                                                        } else {
-                                                            echo "?page=" . $next;
-                                                        } ?>">Next</a>
+
+                        <?php
+                        if ($total_no_of_pages <= 10) {
+                            for ($counter = 1; $counter <= $total_no_of_pages; $counter++) {
+                                if ($counter == $page_no) {
+                                    echo "<li class='active'><a>$counter</a></li>";
+                                } else {
+                                    echo "<li><a href='?page_no=$counter'>$counter</a></li>";
+                                }
+                            }
+                        } elseif ($total_no_of_pages > 10) {
+
+                            if ($page_no <= 4) {
+                                for ($counter = 1; $counter < 8; $counter++) {
+                                    if ($counter == $page_no) {
+                                        echo "<li class='active'><a>$counter</a></li>";
+                                    } else {
+                                        echo "<li><a href='?page_no=$counter'>$counter</a></li>";
+                                    }
+                                }
+                                echo "<li><a>...</a></li>";
+                                echo "<li><a href='?page_no=$second_last'>$second_last</a></li>";
+                                echo "<li><a href='?page_no=$total_no_of_pages'>$total_no_of_pages</a></li>";
+                            } elseif ($page_no > 4 && $page_no < $total_no_of_pages - 4) {
+                                echo "<li><a href='?page_no=1'>1</a></li>";
+                                echo "<li><a href='?page_no=2'>2</a></li>";
+                                echo "<li><a>...</a></li>";
+                                for ($counter = $page_no - $adjacents; $counter <= $page_no + $adjacents; $counter++) {
+                                    if ($counter == $page_no) {
+                                        echo "<li class='active'><a>$counter</a></li>";
+                                    } else {
+                                        echo "<li><a href='?page_no=$counter'>$counter</a></li>";
+                                    }
+                                }
+                                echo "<li><a>...</a></li>";
+                                echo "<li><a href='?page_no=$second_last'>$second_last</a></li>";
+                                echo "<li><a href='?page_no=$total_no_of_pages'>$total_no_of_pages</a></li>";
+                            } else {
+                                echo "<li><a href='?page_no=1'>1</a></li>";
+                                echo "<li><a href='?page_no=2'>2</a></li>";
+                                echo "<li><a>...</a></li>";
+
+                                for ($counter = $total_no_of_pages - 6; $counter <= $total_no_of_pages; $counter++) {
+                                    if ($counter == $page_no) {
+                                        echo "<li class='active'><a>$counter</a></li>";
+                                    } else {
+                                        echo "<li><a href='?page_no=$counter'>$counter</a></li>";
+                                    }
+                                }
+                            }
+                        }
+                        ?>
+
+                        <li <?php if ($page_no >= $total_no_of_pages) {
+                                echo "class='disabled'";
+                            } ?>>
+                            <a <?php if ($page_no < $total_no_of_pages) {
+                                    echo "href='?page_no=$next_page'";
+                                } ?>>Next</a>
                         </li>
+                        <?php if ($page_no < $total_no_of_pages) {
+                            echo "<li><a href='?page_no=$total_no_of_pages'>Last &rsaquo;&rsaquo;</a></li>";
+                        } ?>
                     </ul>
                 </nav>
             </div>
@@ -249,7 +231,8 @@ $next = $page + 1;
 
 // }
 // close connection
-unset($pdo);
+$conn->close();
+// unset($pdo);
 ?>
 
 <!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" /> -->
@@ -257,9 +240,9 @@ unset($pdo);
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.3.2/js/tempusdominus-bootstrap-4.min.js" integrity="sha512-GIuGdzHXXABnYuyFfVnPE5Xd/Ak7gL9XmDnQMF1mIzRGxtdDQZMcd9fWsXKj+dCddOSpArF+tFN1/kdptCT8eA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
 <script>
     $(document).ready(function() {
-        $('#records-limit').change(function() {
-            $('form').submit();
-        })
+        // $('#records-limit').change(function() {
+        //     $('form').submit();
+        // })
     });
 </script>
 <script>

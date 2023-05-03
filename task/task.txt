@@ -1,2 +1,14 @@
 30-04-2023
-- clean up all other css and js
+- clean up all other css and js         doesn
+
+03-05-2023
+- clean up all comment
+- change icon 
+- only 1 config
+- make export
+# abir vai correction
+- only 1 connection and use this single correction to all item
+- change view
+- change all color of all item all Check in white view
+- change the sl to (0 - total)
+- small font in header
