@@ -2,7 +2,7 @@
 <style type="text/css">
     body {
         font: 14px sans-serif;
-        color: #fff;
+        /* color: #fff; */
         /* text-align: center;  */
         /*margin: 0 auto;*/
     }

@@ -64,7 +64,7 @@
     height: 30px;
     font-size:x-small;
     /* adjust the height as needed */
-    background-color: #333;
+    background-color: #B6B6B4;
     color: #fff;
     text-align: left;
     padding: 10px 0px;
@@ -91,7 +91,7 @@
 <script src="js/bootstrap.bundle.min.js" ></script>
 <script src="js/jquery.dataTables.js" ></script>
 <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script> -->
-<footer class="footer mt-auto bg-light">
+<footer class="footer mt-auto ">
   <div class="container">
     <div class="agileinfo_copy_right_left pull-left">
       <p>Developed & Powered by BDCOM Online Ltd.</p>

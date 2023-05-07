@@ -12,13 +12,13 @@
     <link rel="shortcut icon" type="image/x-icon" href="img/kotha-transparent.png">
     
     <style>
-        body {
-            color: #fff;
-        }
+        /* body {
+            color: #000;
+        } */
         .jumbotron {
         text-align: center;
-        padding: 30px;
-        /* background-color: #7FFFD4; */
+        padding: 10px;
+        background-color: #ADD8E6;
         margin: 30px 0px;
     }
     </style>
@@ -51,8 +51,8 @@
 
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12">
-                <div class="jumbotron">
-                    <h3>Welcome to Missed Call Solution</h3>
+                <div class="jumbotron ">
+                    <h4 class="text-black-50">Welcome to Missed Call Solution</h4>
                 </div>
             </div>
         </div>
