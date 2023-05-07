@@ -1,5 +1,5 @@
 30-04-2023
-- clean up all other css and js         doesn
+- clean up all other css and js         done
 
 03-05-2023
 - clean up all comment
@@ -7,9 +7,10 @@
 - only 1 config
 - make export
 # abir vai correction
-- only 1 connection and use this single correction to all item
+- only 1 connection and use this single connection to all item
 - change all color of all item all Check in white view      ok
 - change the sl to (0 - total)
 - small font in header      ok
 - in dashboard show only today records
 - add class to pagination
+- on user dropdown should show down arrow

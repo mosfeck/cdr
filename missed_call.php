@@ -32,9 +32,8 @@ if (isset($_GET['page_no']) && $_GET['page_no'] != "") {
 } else {
     $page_no = 1;
 }
-
 $total_records_per_page = 10;
-// $page = (isset($_GET['page']) && is_numeric($_GET['page'])) ? $_GET['page'] : 1;
+
 if (isset($_POST['submit']) && $_POST['submit'] == 'Search') {
     $sql = "SELECT * from cdr WHERE 1";
     if (isset($_POST['uniqueid']) && !empty($_POST['uniqueid'])) {

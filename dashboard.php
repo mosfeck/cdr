@@ -23,21 +23,12 @@
         padding: 15px;
     }
 
-    /* .card-img-bottom{
-        width: 30%;
-    } */
-    /* .center-item {
-        text-align: center;
-
-    } */
-
     .center-item .card-title .card-img-alignright {
         display: block;
         margin: 0 auto;
     }
 
     a {
-        /* color: #fff; */
         text-decoration: none;
     }
 
@@ -47,12 +38,9 @@
 
     .missed {
         text-align: center;
-        /* background-color: red; */
     }
-
     .domains {
         text-align: center;
-        /* background-color: green; */
     }
     .top-space{
         margin-top: 30px;
@@ -68,7 +56,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
     header("location: login.php");
     exit;
 }
-$id = $name = $email = $phone = $designation = $department =  $password = $confirm_password = $missedCall = $apiCall = "";
+$id = $name = $email = $phone = $status = $department = $missedCall = $apiCall = "";
 //prepare a select statement
 $sql = "SELECT * from user_manage WHERE email=:email";
 if ($stmt = $pdo->prepare($sql)) {
@@ -88,8 +76,6 @@ if ($stmt = $pdo->prepare($sql)) {
                 $designation = $row["designation"];
                 $department = $row["department"];
                 $status = $row["status"];
-                // echo $name;exit;
-                // print_r($name);exit;
             }
         } else {
             //display an error message if email doesn't exit
@@ -101,20 +87,14 @@ if ($stmt = $pdo->prepare($sql)) {
 }
 
 // Missed called
-$sql = "SELECT count(accountcode) as missedCall FROM `cdr` WHERE accountcode = 'MISSEDCALL'";
+$sql = "SELECT count(accountcode) as missedCall FROM `cdr` WHERE 
+            accountcode = 'MISSEDCALL' AND calldate BETWEEN '" . date('y-m-d') . " 00:00:00' AND '" . date('y-m-d') . " 23:59:59'";
 if ($stmt = $pdo->prepare($sql)) {
-    // Bind variables to the prepared statement as parameters
-    // $stmt->bindParam(":email", $param_email, PDO::PARAM_STR);
-
-    // Set parameters
-    // $param_email = $_SESSION["email"];
-    // echo $param_email;exit;
     // Attempt to execute the prepared statement
     if ($stmt->execute()) {
         if ($stmt->rowCount() == 1) {
             if ($row = $stmt->fetch()) {
                 $missedCall = $row['missedCall'];
-                // print_r($id);exit;
             }
         } else {
             //display an error message if email doesn't exit
@@ -126,14 +106,9 @@ if ($stmt = $pdo->prepare($sql)) {
 }
 
 // Missed called
-$sql = "SELECT count(apiCalling) as apiCall FROM `cdr` WHERE `apiCalling` > 0";
+$sql = "SELECT count(apiCalling) as apiCall FROM `cdr` WHERE 
+        `apiCalling` > 0  AND calldate BETWEEN '" . date('y-m-d') . " 00:00:00' AND '" . date('y-m-d') . " 23:59:59'";
 if ($stmt = $pdo->prepare($sql)) {
-    // Bind variables to the prepared statement as parameters
-    // $stmt->bindParam(":email", $param_email, PDO::PARAM_STR);
-
-    // Set parameters
-    // $param_email = $_SESSION["email"];
-    // echo $param_email;exit;
     // Attempt to execute the prepared statement
     if ($stmt->execute()) {
         if ($stmt->rowCount() == 1) {
@@ -149,15 +124,12 @@ if ($stmt = $pdo->prepare($sql)) {
         echo "Opps! something went wrong. Please try again later.";
     }
 }
-//close statement
-// unset($stmt);
-// unset($pdo);
+
 ?>
 
 
 
 <div class="container">
-    
     <div class="row clearfix ">
         <div class="col-lg-4 col-md-12 col-sm-12">
             <div class="card widget_2 big_icon user-info first-item-color">
@@ -294,11 +266,6 @@ if ($stmt = $pdo->prepare($sql)) {
                             foreach ($result as $row) {
                             ?>
                                 <tr <?php echo $sl % 2 == 0 ? ' class="table-info"' : 'class="table-success"'; ?>>
-                                    <!-- <td style="max-width: 60px;"><a href="update_user.php?id=<?php //echo $id; 
-                                                                                                    ?>" title="Edit" ><img src="img/edit.png" alt="edit image" style="width:20%;margin-right: 5px;"></a>
-                                <a href="delete_user.php?id=<?php //echo $id; 
-                                                            ?>" onclick="return confirm('Are you sure you want to Delete?')" title="Delete"><img src="img/clear.png" alt="edit image" style="width:20%"></a>
-                            </td> -->
                                     <td><?php echo $sl++; ?></td>
                                     <td><?php echo $row['uniqueid']; ?></td>
                                     <td><?php echo $row['calldate']; ?></td>
@@ -307,7 +274,7 @@ if ($stmt = $pdo->prepare($sql)) {
                                     <td><?php echo $row['apiCalling'] == 1 ? 'Yes' : 'No'; ?></td>
                                 </tr>
                             <?php
-                                unset($pdo);
+                                unset($stmt);
                             } ?>
                         </tbody>
                     </table>
@@ -321,12 +288,10 @@ if ($stmt = $pdo->prepare($sql)) {
         </div>
     </div>
 </div>
-<!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" /> -->
 
 <script>
     $(document).ready(function() {
         $('#cdr-table').DataTable();
     });
 </script>
-<!-- <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script> -->
 <?php include('footer.php'); ?>
