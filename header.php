@@ -26,7 +26,6 @@
 
 <body>
     <div class="container">
-
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12">
                 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -41,6 +40,7 @@
                                 <a class="nav-link" href="missed_call.php">Missed Call</a>
                                 <a class="nav-link" href="missed_call_summary.php">Summary</a>
                                 <a class="nav-link" href="user.php">Users</a>
+                                <a class="nav-link" href="reset-password.php">Change Password</a>
                                 <a class="nav-link" href="logout.php">Logout</a>
                             </div>
                         </div>
@@ -49,11 +49,5 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-lg-12 col-md-12 col-sm-12">
-                <div class="jumbotron ">
-                    <h4 class="text-black-50">Welcome to Missed Call Solution</h4>
-                </div>
-            </div>
-        </div>
+        
     </div>

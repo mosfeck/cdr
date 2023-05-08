@@ -134,8 +134,15 @@ if ($stmt = $pdo->prepare($sql)) {
 
 
 <div class="container">
+<div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="jumbotron ">
+                    <h4 class="text-black-50">Welcome to Missed Call Solution</h4>
+                </div>
+            </div>
+        </div>
     <div class="row clearfix ">
-        <div class="col-lg-4 col-md-12 col-sm-12">
+        <div class="col-lg-4 col-md-12 col-sm-12 col-12">
             <div class="card widget_2 big_icon user-info first-item-color" >
                 <div class="card-body center-item">
                     <a href="#user-info">
@@ -145,7 +152,7 @@ if ($stmt = $pdo->prepare($sql)) {
                 </div>
             </div>
         </div>
-        <div class="col-lg-4 col-md-12 col-sm-12">
+        <div class="col-lg-4 col-md-12 col-sm-12 col-12">
             <div class="card widget_2 big_icon missed second-item-color">
                 <div class="body">
                     <h5>Today Missed Call
@@ -157,7 +164,7 @@ if ($stmt = $pdo->prepare($sql)) {
                 </div>
             </div>
         </div>
-        <div class="col-lg-4 col-md-12 col-sm-12">
+        <div class="col-lg-4 col-md-12 col-sm-12 col-12">
             <div class="card widget_2 big_icon domains third-item-color">
                 <div class="body">
                     <h5>Today API Call

@@ -130,17 +130,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 
 <body>
-    <!-- <div class="d-flex align-items-center justify-content-center"> -->
     <div class="container mx-auto">
-        <!-- <div class="d-flex align-items-center justify-content-center" style="width: 1200px;"> -->
-
-
         <div class="row ">
             <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3"></div>
             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
                 <div class="card">
                     <div class="card-body">
-                        <!-- <h2 class="text-center">Login</h2> -->
                         <div class="card-header">
                             <img class="img-fluid" src="img/logon-logo3.png" alt="login image">
                         </div>
@@ -170,7 +165,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             </div>
                             <div class="card-footer">
                                 <div class="row">
-                                    <!-- <div class="col-lg-2 col-md-2 col-sm-2 form-control-label "></div> -->
                                     <div class="col-lg-12 col-md-12 col-sm-12">
                                         <div class="center-item">
                                             <div class="form-group">
@@ -187,9 +181,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
             <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3"></div>
         </div>
-        <!-- </div> -->
     </div>
-    <!-- </div> -->
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>

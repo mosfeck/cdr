@@ -1,4 +1,22 @@
+<?php include('header.php'); ?>
+<style>
+	.form-group {
+            margin: 10px;
+            padding: 5px;
+        }
+		.center-item {
+            text-align: center;
+        }
+        .center-item .center-align{
+            display: block;
+            margin: 0 auto;
+        } 
+        .card-header{
+            background-color: #fff;
+        }
+</style>
 <?php
+
 //inisialize the session
 session_start();
 
@@ -49,7 +67,7 @@ if($_SERVER["REQUEST_METHOD"]=="POST")
 	if(empty($new_password_err) && empty($confirm_password_err))
 	{
 		//prepare an update statement
-		$sql="update users set password=:password where id=:id";
+		$sql="update user_manage set password=:password where id=:id";
 		if($stmt=$pdo->prepare($sql))
 		{
 			// Bind variables to the prepared statement as parameters
@@ -81,24 +99,59 @@ if($_SERVER["REQUEST_METHOD"]=="POST")
     unset($pdo);
 }
 ?>
+<div class="container mx-auto">
+        <div class="row ">
+            <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2"></div>
+            <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-header">
+							Change Password
+                        </div>
+                        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
+                            <div class="form-group <?php echo (!empty($new_password_err)) ? 'has-error' : ''; ?>">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label>New Password</label>
+                                    </div>
+                                    <div class="col-md-8">
+									<input type="password" name="new_password" class="form-control" value="<?php echo $new_password; ?>">
+                                        <span class="help-block"><?php echo $new_password_err; ?></span>
+                                    </div>
+                                </div>
+                            </div>
+							<div class="form-group <?php echo (!empty($confirm_password_err)) ? 'has-error' : ''; ?>">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label>Confirm Password</label>
+                                    </div>
+                                    <div class="col-md-8">
+									<input type="password" name="confirm_password" class="form-control">
+                                        <span class="help-block"><?php echo $confirm_password_err; ?></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                                        <div class="center-item">
+                                            <div class="form-group">
+                                                <input type="submit" class="btn btn-primary center-align" value="Submit">
+                                                <!-- <p class="center-align mt-2">Don't have an account? <a href="create_user.php">Sign up now</a>.</p> -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2"></div>
+        </div>
+    </div>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Reset Password</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
-    <style type="text/css">
-        body{ font: 14px sans-serif; }
-        .wrapper{ 
-        	width: 350px; 
-        	padding: 20px; 
-        	margin: 0 auto;
-        }
-    </style>
-</head>
-<body>
-    <div class="wrapper">
+    <!-- <div class="wrapper">
         <h2>Reset Password</h2>
         <p>Please fill out this form to reset your password.</p>
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post"> 
@@ -117,6 +170,5 @@ if($_SERVER["REQUEST_METHOD"]=="POST")
                 <a class="btn btn-link" href="welcome.php">Cancel</a>
             </div>
         </form>
-    </div>    
-</body>
-</html>
+    </div>     -->
+<?php include('footer.php'); ?>

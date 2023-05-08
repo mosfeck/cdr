@@ -16,36 +16,17 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
     exit;
 }
 
-// Set session
-// session_start();
 $report_type = $calldate_from = $calldate_to = '';
-// if (isset($_POST['records-limit'])) {
-//     $_SESSION['records-limit'] = $_POST['records-limit'];
-// }
+
 if (isset($_POST['submit'])) {
     $report_type = $_POST['report_type'];
     $calldate_from = $_POST['calldate_from'];
     $calldate_to = $_POST['calldate_to'];
 }
-
-// $conn = new mysqli('localhost', 'root', 'password', 'kothacdr');
-// if ($conn -> connect_errno) {
-//     echo "Failed to connect to MySQL: " . $conn -> connect_error;
-//     exit();
-//   }
-  $sql = '';
-
-// $limit = isset($_SESSION['records-limit']) ? $_SESSION['records-limit'] : 10;
-// $page = (isset($_GET['page']) && is_numeric($_GET['page'])) ? $_GET['page'] : 1;
-// $paginationStart = ($page - 1) * $limit;
-// $url = 'missed_call.php?type=search';
-
-// $sqlCount = '';
-// $allRecords = 0;
-
+$sql = '';
+$_SESSION['report_type'] = $report_type;
 if (isset($_POST['submit']) && $_POST['submit'] == 'Search') {
     // print_r($_POST);
-    // $url .= '&type=search';
     if (isset($_POST['calldate_from']) && !empty($_POST['calldate_from']) && (isset($_POST['calldate_to']) && !empty($_POST['calldate_to']))) {
         if ($_POST['report_type'] == "Daily") {
             $sql = "SELECT date(calldate) `Daily`, 
@@ -81,20 +62,12 @@ else {
     calldate between DATE('y-m-d 00:00:00') AND DATE('y-m-d 23:59:59') 
     GROUP BY `Daily`";
 }
-
+$_SESSION['summary_cdr'] = $sql;
 // use the connection here
 $stmt = $pdo->query($sql);
 
 // fetch all rows into array, by default PDO::FETCH_BOTH is used
 $results = $stmt->fetchAll();
-// if ($stmt = $pdo->prepare($sql)) {
-//     if ($stmt->execute()) {
-
-//     }
-// }
-//echo $sql;// exit;
-// $results = $conn->query($sql);
-// print_r($results);exit;
 
 // if (!$results) {
 //     die("Query failed: " . $pdo->error);
@@ -136,6 +109,7 @@ $results = $stmt->fetchAll();
                             <div class="col-lg-3 col-md-3 col-sm-3">
                                 <div class="form-group">
                                     <input type="submit" name="submit" class="btn btn-primary" value="Search">
+                                    <a href="missed_call_summary_export.php" class="btn btn-info" >Export</a>
                                 </div>
                             </div>
                         </div>
@@ -184,10 +158,4 @@ $results = $stmt->fetchAll();
 // close connection
 unset($pdo);
 ?>
-
-<script>
-    // $(document).ready(function() {
-    //     $('#cdr-table').DataTable();
-    // });
-</script>
 <?php include('footer.php'); ?>
