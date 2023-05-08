@@ -136,9 +136,9 @@ if ($stmt = $pdo->prepare($sql)) {
 <div class="container">
     <div class="row clearfix ">
         <div class="col-lg-4 col-md-12 col-sm-12">
-            <div class="card widget_2 big_icon user-info first-item-color">
+            <div class="card widget_2 big_icon user-info first-item-color" >
                 <div class="card-body center-item">
-                    <a href="user.php">
+                    <a href="#user-info">
                         <h5 class="card-title">User Manage</h5>
                         <img class="card-img-alignright" src="img/user-icon.png" alt="user image">
                     </a>
@@ -174,7 +174,7 @@ if ($stmt = $pdo->prepare($sql)) {
     <!-- user info -->
     <div class="row  top-space">
         <div class="col-lg-4 col-md-12 col-sm-12">
-            <div class="card widget_2 big_icon user-info">
+            <div class="card widget_2 big_icon user-info" id="user-info">
                 <div class="card-body">
                     <h5 class="card-title">User Info</h5>
 

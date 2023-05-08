@@ -2,7 +2,7 @@
 - clean up all other css and js         done
 
 03-05-2023
-- clean up all comment
+- clean up all comment and js
 - change icon           ok
 - only 1 config         ok
 - make export
@@ -16,4 +16,5 @@
 - add class to pagination                   ok
 - on user dropdown should show down arrow   ok
 - remove pagination from Summary report     ok
-- put htmlspecialchars in all input
+- put htmlspecialchars in all input         ok
+- show 50 data per page in cdr              ok

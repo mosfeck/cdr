@@ -296,13 +296,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </div>
                         <div class="card-footer">
                             <div class="row">
-                                <!-- <div class="col-lg-4 col-md-4 col-sm-4 form-control-label label-padding"></div> -->
                                 <div class="col-lg-12 col-md-12 col-sm-12">
                                     <div class="form-group center-item">
                                         <input type="submit" class="btn btn-primary center-align" value="Submit">
                                         <p class="mt-2">Already have an account?<a href="login.php"> Login here</a>.</p>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
