@@ -4,13 +4,16 @@
 03-05-2023
 - clean up all comment
 - change icon           ok
-- only 1 config
+- only 1 config         ok
 - make export
+
 # abir vai correction
-- only 1 connection and use this single connection to all item
+- only 1 connection and use this single connection to all item      ok
 - change all color of all item all Check in white view      ok
-- change the sl to (0 - total)
-- small font in header      ok
-- in dashboard show only today records
-- add class to pagination
-- on user dropdown should show down arrow
+- change the sl to (0 - total)              ok
+- small font in header                      ok
+- in dashboard show only today records      ok
+- add class to pagination                   ok
+- on user dropdown should show down arrow   ok
+- remove pagination from Summary report     ok
+- put htmlspecialchars in all input

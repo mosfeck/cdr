@@ -88,7 +88,9 @@ if ($stmt = $pdo->prepare($sql)) {
 
 // Missed called
 $sql = "SELECT count(accountcode) as missedCall FROM `cdr` WHERE 
-            accountcode = 'MISSEDCALL' AND calldate BETWEEN '" . date('y-m-d') . " 00:00:00' AND '" . date('y-m-d') . " 23:59:59'";
+            accountcode = 'MISSEDCALL' AND 
+            calldate BETWEEN '" . date('y-m-d') . " 00:00:00' 
+            AND '" . date('y-m-d') . " 23:59:59'";
 if ($stmt = $pdo->prepare($sql)) {
     // Attempt to execute the prepared statement
     if ($stmt->execute()) {
@@ -107,7 +109,9 @@ if ($stmt = $pdo->prepare($sql)) {
 
 // Missed called
 $sql = "SELECT count(apiCalling) as apiCall FROM `cdr` WHERE 
-        `apiCalling` > 0  AND calldate BETWEEN '" . date('y-m-d') . " 00:00:00' AND '" . date('y-m-d') . " 23:59:59'";
+        `apiCalling` > 0  AND 
+        calldate BETWEEN '" . date('y-m-d') . " 00:00:00' 
+        AND '" . date('y-m-d') . " 23:59:59'";
 if ($stmt = $pdo->prepare($sql)) {
     // Attempt to execute the prepared statement
     if ($stmt->execute()) {
@@ -247,7 +251,7 @@ if ($stmt = $pdo->prepare($sql)) {
             <?php
             //prepare a select statement
             $sql = "SELECT * from cdr ORDER BY calldate DESC limit 20 ";
-            $result = $pdo->query($sql); { ?>
+            $result = $pdo->query($sql);  ?>
                 <div class="table-responsive mb-3 pb-3">
                     <table class="table table-bordered table-striped table-hovered" id="cdr-table">
                         <thead>
@@ -281,7 +285,7 @@ if ($stmt = $pdo->prepare($sql)) {
                 </div>
             <?php
 
-            }
+            
             // close connection
             unset($pdo);
             ?>

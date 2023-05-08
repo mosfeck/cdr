@@ -2,7 +2,6 @@
 <style type="text/css">
     body {
         font: 14px sans-serif;
-        /* color: #fff; */
     }
 </style>
 <?php
@@ -25,7 +24,7 @@ if (isset($_POST['submit'])) {
     $calldate_to = $_POST['calldate_to'];
 }
 
-$conn = new mysqli('localhost', 'root', 'password', 'kothacdr');
+// $conn = new mysqli('localhost', 'root', 'password', 'kothacdr');
 
 if (isset($_GET['page_no']) && $_GET['page_no'] != "") {
     $page_no = $_GET['page_no'];
@@ -40,7 +39,7 @@ if (isset($_POST['submit']) && $_POST['submit'] == 'Search') {
         $sql .= " AND uniqueid like '{$_POST['uniqueid']}' ";
     }
     if (isset($_POST['calldate_from']) && !empty($_POST['calldate_from']) && (isset($_POST['calldate_to']) && !empty($_POST['calldate_to']))) {
-        $sql .= " AND calldate  between '" . $_POST['calldate_from'] . " 00:00:00' and '" . $_POST['calldate_to'] . " 23:59:59' ";
+        $sql .= " AND calldate  BETWEEN '" . $_POST['calldate_from'] . " 00:00:00' and '" . $_POST['calldate_to'] . " 23:59:59' ";
     }
     $_SESSION['search_cdr'] = $sql;
     $_SESSION['currentPage'] = $page_no;
@@ -48,7 +47,7 @@ if (isset($_POST['submit']) && $_POST['submit'] == 'Search') {
     $sql = $_SESSION['search_cdr'];
     $page_no = $_GET['page_no'];
 } else {
-    $sql = "SELECT * from cdr where calldate between '" . date('y-m-d') . " 00:00:00' AND '" . date('y-m-d') . " 23:59:59';";
+    $sql = "SELECT * from cdr where calldate BETWEEN '" . date('y-m-d') . " 00:00:00' AND '" . date('y-m-d') . " 23:59:59'";
     unset($_SESSION['search_cdr']);
     $_SESSION['search_cdr'] = $sql;
 }
@@ -59,15 +58,20 @@ $previous_page = $page_no - 1;
 $next_page = $page_no + 1;
 $adjacents = "2";
 
-$result_count = mysqli_query($con, $sql);
-$total_records = mysqli_num_rows($result_count);
+// echo $sql;
+$stmt = $pdo->prepare($sql);
+$stmt->execute();
+$total_records = $stmt->rowCount();
 $total_no_of_pages = ceil($total_records / $total_records_per_page);
-$second_last = $total_no_of_pages - 1; // total page minus 1
+// total page minus 1
+$second_last = $total_no_of_pages - 1; 
 
 $sqlSelect = $sql . ' LIMIT ' . $offset . ', ' . $total_records_per_page;
 // echo $sqlSelect;
-$results = $conn->query($sqlSelect);
-// print_r($result1);exit;
+$stmt1 = $pdo->query($sqlSelect);
+$results = $stmt1->fetchAll();
+// print_r($results);exit;
+
 ?>
 <div class="container ">
     <div class="row mt-3 mb-5 pb-3">
@@ -111,25 +115,25 @@ $results = $conn->query($sqlSelect);
                             <th> Unique Id </th>
                             <th> Calldate</th>
                             <th> Source Number </th>
-                            <th> API Calling </th>
                             <th> API Calling Time </th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php
-                        $sl = 1;
+                        $sl = $offset + 1;
+                        // $sl = 1;
                         if ($results) {
                             foreach ($results as $row) {
                         ?>
                                 <tr <?php echo $sl % 2 == 0 ? ' class="table-info"' : 'class="table-success"'; ?>>
-                                    <td><?php echo $sl++; ?></td>
+                                    <td><?php echo $sl; ?></td>
                                     <td><?php echo $row['uniqueid']; ?></td>
                                     <td><?php echo $row['calldate']; ?></td>
                                     <td><?php echo $row['srcmain']; ?></td>
                                     <td><?php echo $row['apiTime']; ?></td>
-                                    <td><?php echo $row['apiCalling'] == 1 ? 'Yes' : 'No'; ?></td>
                                 </tr>
                             <?php
+                                $sl++;
                                 // unset($pdo);
                             }
                         } else { ?>
@@ -139,7 +143,7 @@ $results = $conn->query($sqlSelect);
                         <?php } ?>
                     </tbody>
                 </table>
-                <div style='padding: 10px 20px 0px; border-top: dotted 1px #CCC;'>
+                <div style='padding: 10px 20px 12px; border-top: dotted 1px #CCC;'>
                     <strong>Page <?php echo $page_no . " of " . $total_no_of_pages; ?></strong>
                 </div>
                 <!-- Pagination -->
@@ -230,8 +234,8 @@ $results = $conn->query($sqlSelect);
 
 // }
 // close connection
-$conn->close();
-// unset($pdo);
+// $conn->close();
+unset($pdo);
 ?>
 
 <!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" /> -->

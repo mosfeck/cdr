@@ -17,9 +17,9 @@ try{
     die("ERROR: Could not connect. " . $e->getMessage());
 }
 
-$con = mysqli_connect("localhost","root","password","kothacdr");
-	if (mysqli_connect_errno()){
-		echo "Failed to connect to MySQL: " . mysqli_connect_error();
-		die();
-		}
+// $con = mysqli_connect("localhost","root","password","kothacdr");
+// 	if (mysqli_connect_errno()){
+// 		echo "Failed to connect to MySQL: " . mysqli_connect_error();
+// 		die();
+// 		}
 ?>

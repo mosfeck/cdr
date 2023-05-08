@@ -2,7 +2,6 @@
 <style type="text/css">
     body {
         font: 14px sans-serif;
-        /* color: #fff; */
     }
 
 </style>
@@ -20,28 +19,29 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
 // Set session
 // session_start();
 $report_type = $calldate_from = $calldate_to = '';
-if (isset($_POST['records-limit'])) {
-    $_SESSION['records-limit'] = $_POST['records-limit'];
-}
+// if (isset($_POST['records-limit'])) {
+//     $_SESSION['records-limit'] = $_POST['records-limit'];
+// }
 if (isset($_POST['submit'])) {
     $report_type = $_POST['report_type'];
     $calldate_from = $_POST['calldate_from'];
     $calldate_to = $_POST['calldate_to'];
 }
 
-$conn = new mysqli('localhost', 'root', 'password', 'kothacdr');
-if ($conn -> connect_errno) {
-    echo "Failed to connect to MySQL: " . $conn -> connect_error;
-    exit();
-  }
+// $conn = new mysqli('localhost', 'root', 'password', 'kothacdr');
+// if ($conn -> connect_errno) {
+//     echo "Failed to connect to MySQL: " . $conn -> connect_error;
+//     exit();
+//   }
+  $sql = '';
 
-$limit = isset($_SESSION['records-limit']) ? $_SESSION['records-limit'] : 10;
-$page = (isset($_GET['page']) && is_numeric($_GET['page'])) ? $_GET['page'] : 1;
-$paginationStart = ($page - 1) * $limit;
-$url = 'missed_call.php?type=search';
-$sql = '';
-$sqlCount = '';
-$allRecords = 0;
+// $limit = isset($_SESSION['records-limit']) ? $_SESSION['records-limit'] : 10;
+// $page = (isset($_GET['page']) && is_numeric($_GET['page'])) ? $_GET['page'] : 1;
+// $paginationStart = ($page - 1) * $limit;
+// $url = 'missed_call.php?type=search';
+
+// $sqlCount = '';
+// $allRecords = 0;
 
 if (isset($_POST['submit']) && $_POST['submit'] == 'Search') {
     // print_r($_POST);
@@ -82,13 +82,23 @@ else {
     GROUP BY `Daily`";
 }
 
+// use the connection here
+$stmt = $pdo->query($sql);
+
+// fetch all rows into array, by default PDO::FETCH_BOTH is used
+$results = $stmt->fetchAll();
+// if ($stmt = $pdo->prepare($sql)) {
+//     if ($stmt->execute()) {
+
+//     }
+// }
 //echo $sql;// exit;
-$results = $conn->query($sql);
+// $results = $conn->query($sql);
 // print_r($results);exit;
 
-if (!$results) {
-    die("Query failed: " . $conn->error);
-}
+// if (!$results) {
+//     die("Query failed: " . $pdo->error);
+// }
 
 ?>
 <div class="container ">
@@ -138,8 +148,7 @@ if (!$results) {
                     <thead>
                         <tr class="table-success">
                             <th> SL.</th>
-                            <th> Report Type </th>
-                            <th> Calldate</th>
+                            <th> <?php echo $report_type; ?> </th>
                             <th> Total Missed Call </th>
                             <th> Total API Called </th>
                         </tr>
@@ -151,7 +160,6 @@ if (!$results) {
                         ?>
                             <tr <?php echo $sl % 2 == 0 ? ' class="table-info"' : 'class="table-success"'; ?>>
                                 <td><?php echo $sl++; ?></td>
-                                <td><?php echo $report_type; ?></td>
                                 <td><?php if ($report_type == "Daily") {
                                         echo $row['Daily'];
                                     } elseif ($report_type == "Monthly") {
@@ -163,8 +171,9 @@ if (!$results) {
                                 <td><?php echo $row['apiCall']; ?></td>
                             </tr>
                         <?php
-                            
-                        } ?>
+                            unset($stmt);
+                        } 
+                         ?>
                     </tbody>
                 </table>
             </div>
@@ -172,13 +181,9 @@ if (!$results) {
     </div>
 </div>
 <?php
-
-
-// }
 // close connection
-$conn->close();
+unset($pdo);
 ?>
-
 
 <script>
     // $(document).ready(function() {

@@ -150,8 +150,8 @@ if (isset($_POST["id"]) && !empty($_POST["id"])) {
 ?>
 <div class="container">
     <div class="row">
-        <div class="col-sm-3"></div>
-        <div class="col-sm-6 mx-auto">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8 mx-auto">
             <div class="card">
                 <div class="card-header">
                     <div class="card-title text-center">Edit User</div>
@@ -216,7 +216,7 @@ if (isset($_POST["id"]) && !empty($_POST["id"])) {
                             </div>
                             <div class="col-lg-8 col-md-8 col-sm-8">
                                 <div class="form-group  <?php echo (!empty($status_err)) ? 'has-error' : ''; ?>">
-                                    <select name="status" class="form-control">
+                                    <select name="status" class="form-control form-select">
                                         <option value="">Select</option>
                                         <option value="1" <?php if ($status == '1') {
                                                                 echo 'selected';
@@ -247,7 +247,7 @@ if (isset($_POST["id"]) && !empty($_POST["id"])) {
                 </div>
             </div>
         </div>
-        <div class="col-sm-3"></div>
+        <div class="col-sm-2"></div>
     </div>
 
 </div>
