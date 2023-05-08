@@ -99,6 +99,7 @@ $results = $stmt1->fetchAll();
                             <div class="col-lg-3 col-md-3 col-sm-3">
                                 <div class="form-group">
                                     <input type="submit" name="submit" class="btn btn-primary" value="Search">
+                                    <a href="missed_call_export.php" class="btn btn-info" >Export</a>
                                 </div>
                             </div>
                         </div>
