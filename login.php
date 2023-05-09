@@ -130,7 +130,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 
 <body>
-    <div class="container mx-auto">
+    <div class="container mx-auto m-5">
         <div class="row ">
             <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3"></div>
             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">

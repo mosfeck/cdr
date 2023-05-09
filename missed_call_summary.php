@@ -1,10 +1,5 @@
 <?php include('header.php'); ?>
-<style type="text/css">
-    body {
-        font: 14px sans-serif;
-    }
 
-</style>
 <?php
 // Initialize the session
 session_start();
@@ -16,8 +11,8 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
     exit;
 }
 
-$report_type = $calldate_from = $calldate_to = '';
-
+$calldate_from = $calldate_to = '';
+$report_type = "Daily";
 if (isset($_POST['submit'])) {
     $report_type = $_POST['report_type'];
     $calldate_from = $_POST['calldate_from'];
@@ -53,8 +48,7 @@ if (isset($_POST['submit']) && $_POST['submit'] == 'Search') {
                 GROUP BY `Yearly`";
         }
     }
-}
-else {
+} else {
     $sql = "SELECT date(calldate) `Daily`, 
     count(*) as `missedCall`, 
     SUM(apiCalling) as `apiCall` 
@@ -78,6 +72,9 @@ $results = $stmt->fetchAll();
     <div class="row mt-3 mb-5 pb-3">
         <div class="col-lg-12 col-md-12 col-sm-12 ">
             <div class="card">
+                <div class="card-header">
+                    <div class="card-title text-center">Missed Call Summary Report</div>
+                </div>
                 <div class="card-body">
                     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="POST">
                         <div class="row">
@@ -109,47 +106,60 @@ $results = $stmt->fetchAll();
                             <div class="col-lg-3 col-md-3 col-sm-3">
                                 <div class="form-group">
                                     <input type="submit" name="submit" class="btn btn-primary" value="Search">
-                                    <a href="missed_call_summary_export.php" class="btn btn-info" >Export</a>
+                                    <a href="missed_call_summary_export.php" class="btn btn-info text-white">Export</a>
                                 </div>
                             </div>
                         </div>
                     </form>
                 </div>
-            </div>
-
-            <div class="table-responsive mb-3 pb-3">
-                <table class="table table-bordered table-striped table-hovered" id="cdr-table">
-                    <thead>
-                        <tr class="table-success">
-                            <th> SL.</th>
-                            <th> <?php echo $report_type; ?> </th>
-                            <th> Total Missed Call </th>
-                            <th> Total API Called </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        $sl = 1;
-                        foreach ($results as $row) {
-                        ?>
-                            <tr <?php echo $sl % 2 == 0 ? ' class="table-info"' : 'class="table-success"'; ?>>
-                                <td><?php echo $sl++; ?></td>
-                                <td><?php if ($report_type == "Daily") {
-                                        echo $row['Daily'];
-                                    } elseif ($report_type == "Monthly") {
-                                        echo $row['Monthly'];
-                                    } elseif ($report_type == "Yearly") {
-                                        echo $row['Yearly'];
-                                    } ?></td>
-                                <td><?php echo $row['missedCall']; ?></td>
-                                <td><?php echo $row['apiCall']; ?></td>
+                <div class="table-responsive mb-3 pb-3">
+                    <table class="table table-bordered table-striped table-hovered" id="cdr-table">
+                        <thead>
+                            <tr class="table-success">
+                                <th>SL</th>
+                                <th><?php echo $report_type; ?></th>
+                                <th>Missed Call</th>
+                                <th>API Called</th>
                             </tr>
-                        <?php
-                            unset($stmt);
-                        } 
-                         ?>
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            <?php
+                            if ($results) {
+                                $sl = 1;
+                                $TotalMissedCall = $TotalApiCall = 0;
+                                foreach ($results as $row) {
+                                    $TotalMissedCall += (int)$row['missedCall'];
+                                    $TotalApiCall += (int)$row['apiCall'];
+                            ?>
+                                    <tr <?php echo $sl % 2 == 0 ? ' class="table-info"' : 'class="table-success"'; ?>>
+                                        <td><?php echo $sl++; ?></td>
+                                        <td><?php if ($report_type == "Daily") {
+                                                echo $row['Daily'];
+                                            } elseif ($report_type == "Monthly") {
+                                                echo $row['Monthly'];
+                                            } elseif ($report_type == "Yearly") {
+                                                echo $row['Yearly'];
+                                            } ?></td>
+                                        <td><?php echo $row['missedCall']; ?></td>
+                                        <td><?php echo $row['apiCall']; ?></td>
+                                    </tr>
+                                <?php
+                                    //unset($stmt);
+                                }
+
+                                ?>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="2">Total</td>
+                                <td><?php echo $TotalMissedCall; ?></td>
+                                <td><?php echo $TotalApiCall; ?></td>
+                            </tr>
+                        </tfoot>
+                    <?php } ?>
+                    </table>
+                </div>
+
             </div>
         </div>
     </div>

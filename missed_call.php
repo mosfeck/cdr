@@ -1,9 +1,5 @@
 <?php include('header.php'); ?>
-<style type="text/css">
-    body {
-        font: 14px sans-serif;
-    }
-</style>
+
 <?php
 // Initialize the session
 session_start();
@@ -64,7 +60,7 @@ $stmt->execute();
 $total_records = $stmt->rowCount();
 $total_no_of_pages = ceil($total_records / $total_records_per_page);
 // total page minus 1
-$second_last = $total_no_of_pages - 1; 
+$second_last = $total_no_of_pages - 1;
 
 $sqlSelect = $sql . ' LIMIT ' . $offset . ', ' . $total_records_per_page;
 // echo $sqlSelect;
@@ -77,6 +73,9 @@ $results = $stmt1->fetchAll();
     <div class="row mt-3 mb-5 pb-3">
         <div class="col-lg-12 col-md-12 col-sm-12 ">
             <div class="card">
+                <div class="card-header">
+                    <div class="card-title text-center">Missed Call Report</div>
+                </div>
                 <div class="card-body">
                     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="POST">
 
@@ -99,7 +98,7 @@ $results = $stmt1->fetchAll();
                             <div class="col-lg-3 col-md-3 col-sm-3">
                                 <div class="form-group">
                                     <input type="submit" name="submit" class="btn btn-primary" value="Search">
-                                    <a href="missed_call_export.php" class="btn btn-info" >Export</a>
+                                    <a href="missed_call_export.php" class="btn btn-info text-white">Export</a>
                                 </div>
                             </div>
                         </div>
@@ -154,11 +153,11 @@ $results = $stmt1->fetchAll();
                         ?>
 
                         <li class="page-item <?php if ($page_no <= 1) {
-                                echo "class='disabled'";
-                            } ?>">
+                                                    echo "class='disabled'";
+                                                } ?>">
                             <a class="page-link" <?php if ($page_no > 1) {
-                                    echo "href='?page_no=$previous_page'";
-                                } ?>>Previous</a>
+                                                        echo "href='?page_no=$previous_page'";
+                                                    } ?>>Previous</a>
                         </li>
 
                         <?php
@@ -217,8 +216,8 @@ $results = $stmt1->fetchAll();
                                 echo "class='disabled'";
                             } ?>>
                             <a class="page-link" <?php if ($page_no < $total_no_of_pages) {
-                                    echo "href='?page_no=$next_page'";
-                                } ?>>Next</a>
+                                                        echo "href='?page_no=$next_page'";
+                                                    } ?>>Next</a>
                         </li>
                         <?php if ($page_no < $total_no_of_pages) {
                             echo "<li><a  class='page-link' href='?page_no=$total_no_of_pages'>Last &rsaquo;&rsaquo;</a></li>";

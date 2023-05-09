@@ -7,6 +7,7 @@
     }
 
     .first-item-color{
+        text-align: center;
         background-color: #F5F5DC;
     }
     .second-item-color{
@@ -33,7 +34,7 @@
     }
 
     .card-img-alignright {
-        width: 30%;
+        width: 10%;
     }
 
     .missed {
@@ -43,7 +44,7 @@
         text-align: center;
     }
     .top-space{
-        margin-top: 30px;
+        margin-top: 10px;
     }
 </style>
 <?php
@@ -56,7 +57,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
     header("location: login.php");
     exit;
 }
-$id = $name = $email = $phone = $status = $department = $missedCall = $apiCall = "";
+$id = $name = $email = $phone = $status = $department = $missedCall = $apiCall = $total_user = "";
 //prepare a select statement
 $sql = "SELECT * from user_manage WHERE email=:email";
 if ($stmt = $pdo->prepare($sql)) {
@@ -85,7 +86,31 @@ if ($stmt = $pdo->prepare($sql)) {
         echo "Opps! something went wrong. Please try again later.";
     }
 }
+// total user
+$sql = "SELECT count(*) as `total_user` from `user_manage`";
+if ($stmt = $pdo->prepare($sql)) {
+    // Bind variables to the prepared statement as parameters
+    // $stmt->bindParam(":email", $param_email, PDO::PARAM_STR);
 
+    // Set parameters
+    // $param_email = $_SESSION["email"];
+    // echo $param_email;exit;
+    // Attempt to execute the prepared statement
+    if ($stmt->execute()) {
+        if ($stmt->rowCount() > 0) {
+            // echo $stmt->rowCount();exit;
+            if ($row = $stmt->fetchColumn()) {
+                $total_user = $row;
+            }
+        } else {
+            //display an error message if email doesn't exit
+            echo "No record found";
+        }
+    } else {
+        echo "Opps! something went wrong. Please try again later.";
+    }
+}
+// echo $total_user;exit;
 // Missed called
 $sql = "SELECT count(accountcode) as missedCall FROM `cdr` WHERE 
             accountcode = 'MISSEDCALL' AND 
@@ -137,29 +162,38 @@ if ($stmt = $pdo->prepare($sql)) {
 <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                 <div class="jumbotron ">
-                    <h4 class="text-black-50">Welcome to Missed Call Solution</h4>
+                    <h5 class="text-black">Welcome to Missed Call Solution</h5>
                 </div>
             </div>
         </div>
     <div class="row clearfix ">
         <div class="col-lg-4 col-md-12 col-sm-12 col-12">
             <div class="card widget_2 big_icon user-info first-item-color" >
-                <div class="card-body center-item">
+            <div class="body">
+                    <h6>Total user
+                        <strong>
+                            <?php echo $total_user; ?>
+                        </strong>
+                    </h6>
+                    <img class="card-img-alignright" src="img/user-icon.png" alt="user image">
+                </div>
+
+                <!-- <div class="card-body center-item">
                     <a href="#user-info">
                         <h5 class="card-title">User Manage</h5>
                         <img class="card-img-alignright" src="img/user-icon.png" alt="user image">
                     </a>
-                </div>
+                </div> -->
             </div>
         </div>
         <div class="col-lg-4 col-md-12 col-sm-12 col-12">
             <div class="card widget_2 big_icon missed second-item-color">
                 <div class="body">
-                    <h5>Today Missed Call
+                    <h6>Today Missed Call
                         <strong>
                             <?php echo $missedCall; ?>
                         </strong>
-                    </h5>
+                    </h6>
                     <img class="card-img-alignright" src="img/missed-call.png" alt="missed image">
                 </div>
             </div>
@@ -167,11 +201,11 @@ if ($stmt = $pdo->prepare($sql)) {
         <div class="col-lg-4 col-md-12 col-sm-12 col-12">
             <div class="card widget_2 big_icon domains third-item-color">
                 <div class="body">
-                    <h5>Today API Call
+                    <h6>Today API Call
                         <strong>
                             <?php echo $apiCall; ?>
                         </strong>
-                    </h5>
+                    </h6>
                     <img class="card-img-alignright" src="img/api-call.png" alt="missed image">
                 </div>
             </div>

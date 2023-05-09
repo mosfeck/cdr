@@ -99,15 +99,15 @@ if($_SERVER["REQUEST_METHOD"]=="POST")
     unset($pdo);
 }
 ?>
-<div class="container mx-auto">
+<div class="container mx-auto mt-5">
         <div class="row ">
             <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2"></div>
             <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12">
                 <div class="card">
-                    <div class="card-body">
-                        <div class="card-header">
+                <div class="card-header text-center">
 							Change Password
                         </div>
+                    <div class="card-body">
                         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
                             <div class="form-group <?php echo (!empty($new_password_err)) ? 'has-error' : ''; ?>">
                                 <div class="row">

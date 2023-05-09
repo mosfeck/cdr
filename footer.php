@@ -64,7 +64,7 @@
     height: 30px;
     font-size:x-small;
     /* adjust the height as needed */
-    background-color: #B6B6B4;
+    background-color: #B6Bfff;
     color: #fff;
     text-align: left;
     padding: 10px 0px;
