@@ -3,8 +3,8 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Apr 27, 2023 at 12:57 PM
--- Server version: 8.0.32-0ubuntu0.20.04.2
+-- Generation Time: May 09, 2023 at 09:08 AM
+-- Server version: 8.0.33-0ubuntu0.20.04.1
 -- PHP Version: 7.4.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -46,11 +46,11 @@ CREATE TABLE `user_manage` (
 --
 
 INSERT INTO `user_manage` (`id`, `name`, `email`, `phone`, `designation`, `department`, `password`, `status`, `created_on`, `updated_on`) VALUES
-(11, 'Ravi', 'ravi@bdcom.com', '01597536141', 'Manager', 'iptsp and Software', '$2y$10$Sr5zLGTZ3gZDj34E8Y82s.8CXJklolEx9tvSH9YQ0.rAcLrlzCt7W', 1, '2023-04-12 08:09:24', '2023-04-26 08:51:42'),
-(12, 'Jahid', 'Jahid@bdcom.com', '01597536141', 'Senior Executive', 'iptsp and Software', '$2y$10$0YUtJ0Xzojc62W77WSa5jeqpDMvx2U9SkhYRnonpsOZ5SELBz3yba', 0, '2023-04-13 08:38:39', '2023-04-26 07:06:05'),
-(14, 'Jewel Talukdar', 'jewel@bdcom.com', '01597536158', 'Manager', 'Software', '$2y$10$r24c395ZSMMBecaExz58EOyaBelDhEYJit/JUCPlNeN6lUkdM5BFC', 1, '2023-04-13 08:52:59', '2023-04-18 06:12:00'),
+(1, 'Mosfeck Uddin', 'mosfeck@bdcom.com', '017200047487', 'Software Engineer', 'Software', '$2y$10$cwimwWzS86JAN7CqGjYpb.gR8JdAEexjXarHEMU76sBgRkmDMm4DO', 1, '2023-05-09 08:55:48', NULL),
+(2, 'Jahid', 'Jahid@bdcom.com', '01597536141', 'Senior Executive', 'iptsp and Software', '$2y$10$0YUtJ0Xzojc62W77WSa5jeqpDMvx2U9SkhYRnonpsOZ5SELBz3yba', 0, '2023-04-13 08:38:39', '2023-05-09 08:57:12'),
+(14, 'Jewel Talukdar', 'jewel@bdcom.com', '01597536158', 'Manager', 'Software', '$2y$10$yPjgBYp85AtUG7Fb30H2Eug6iRtG8dr.vo.O8A1Ex4XrcMliDc3BO', 1, '2023-04-13 08:52:59', '2023-05-08 13:02:50'),
 (15, 'Akram Khan', 'akram@bdcom.com', '01732172486', 'Manager', 'iptsp and Software', '$2y$10$4Usbahro0C9z69h5X5RqwuIEB97Dm0y0m76.OxcXMUv4cEOFIJ3li', 1, '2023-04-26 06:09:18', '2023-04-26 07:05:17'),
-(16, 'Ali Raj', 'ali@bdcom.com', '01597536141', 'Manager', 'iptsp and Software', '$2y$10$6M7YhD/7GoMncPMP3mz2iOkPtkRVv1W/V/vALmS7Fj4ga1KhRKKjS', 1, '2023-04-26 06:56:15', NULL);
+(17, 'Mozammel', 'mozammel@bdcom.com', '01597536141', 'Senior Developer', 'Software', '$2y$10$z3uSD.Nz2JpSt8UtBWG4aulQt73F3qivQ0z2B6moy1DuNVPl4ne0.', 1, '2023-05-08 06:41:13', '2023-05-08 06:41:48');
 
 --
 -- Indexes for dumped tables
@@ -70,7 +70,7 @@ ALTER TABLE `user_manage`
 -- AUTO_INCREMENT for table `user_manage`
 --
 ALTER TABLE `user_manage`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

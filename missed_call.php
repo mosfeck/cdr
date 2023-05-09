@@ -10,7 +10,6 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
     header("location: login.php");
     exit;
 }
-
 // Set session
 $uniqueid = $calldate_from = $calldate_to = '';
 
@@ -20,15 +19,12 @@ if (isset($_POST['submit'])) {
     $calldate_to = $_POST['calldate_to'];
 }
 
-// $conn = new mysqli('localhost', 'root', 'password', 'kothacdr');
-
 if (isset($_GET['page_no']) && $_GET['page_no'] != "") {
     $page_no = $_GET['page_no'];
 } else {
     $page_no = 1;
 }
 $total_records_per_page = 50;
-
 if (isset($_POST['submit']) && $_POST['submit'] == 'Search') {
     $sql = "SELECT * from cdr WHERE 1";
     if (isset($_POST['uniqueid']) && !empty($_POST['uniqueid'])) {
@@ -47,14 +43,11 @@ if (isset($_POST['submit']) && $_POST['submit'] == 'Search') {
     unset($_SESSION['search_cdr']);
     $_SESSION['search_cdr'] = $sql;
 }
-//echo $sql;// exit;
-
 $offset = ($page_no - 1) * $total_records_per_page;
 $previous_page = $page_no - 1;
 $next_page = $page_no + 1;
 $adjacents = "2";
 
-// echo $sql;
 $stmt = $pdo->prepare($sql);
 $stmt->execute();
 $total_records = $stmt->rowCount();
@@ -63,11 +56,8 @@ $total_no_of_pages = ceil($total_records / $total_records_per_page);
 $second_last = $total_no_of_pages - 1;
 
 $sqlSelect = $sql . ' LIMIT ' . $offset . ', ' . $total_records_per_page;
-// echo $sqlSelect;
 $stmt1 = $pdo->query($sqlSelect);
 $results = $stmt1->fetchAll();
-// print_r($results);exit;
-
 ?>
 <div class="container ">
     <div class="row mt-3 mb-5 pb-3">
@@ -78,7 +68,6 @@ $results = $stmt1->fetchAll();
                 </div>
                 <div class="card-body">
                     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="POST">
-
                         <div class="row">
                             <div class="col-lg-3 col-md-3 col-sm-3">
                                 <div class="form-group">
@@ -97,12 +86,11 @@ $results = $stmt1->fetchAll();
                             </div>
                             <div class="col-lg-3 col-md-3 col-sm-3">
                                 <div class="form-group">
-                                    <input type="submit" name="submit" class="btn btn-primary" value="Search">
-                                    <a href="missed_call_export.php" class="btn btn-info text-white">Export</a>
+                                    <input type="submit" name="submit" class="btn btn-primary btn-sm" value="Search">
+                                    <a href="missed_call_export.php" class="btn btn-info btn-sm text-white">Export</a>
                                 </div>
                             </div>
                         </div>
-
                     </form>
                 </div>
             </div>
@@ -121,7 +109,6 @@ $results = $stmt1->fetchAll();
                     <tbody>
                         <?php
                         $sl = $offset + 1;
-                        // $sl = 1;
                         if ($results) {
                             foreach ($results as $row) {
                         ?>
@@ -134,7 +121,6 @@ $results = $stmt1->fetchAll();
                                 </tr>
                             <?php
                                 $sl++;
-                                // unset($pdo);
                             }
                         } else { ?>
                             <tr>
@@ -149,7 +135,7 @@ $results = $stmt1->fetchAll();
                 <!-- Pagination -->
                 <nav aria-label="Page navigation example mt-5">
                     <ul class="pagination">
-                        <?php // if($page_no > 1){ echo "<li><a href='?page_no=1'>First Page</a></li>"; } 
+                        <?php if($page_no > 1){ echo "<li><a class='page-link' href='?page_no=1'>First Page</a></li>"; } 
                         ?>
 
                         <li class="page-item <?php if ($page_no <= 1) {
@@ -230,35 +216,7 @@ $results = $stmt1->fetchAll();
     </div>
 </div>
 <?php
-
-
-// }
 // close connection
-// $conn->close();
 unset($pdo);
 ?>
-
-<!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" /> -->
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-fQ+tkptA94pi+gKYFpXZlrn8HJbuOVnUIg6fH/+kMEEw+2c1JzegbGYORZKWElXG+TE8ZgdfCNRNGDx3v4fWvw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.3.2/js/tempusdominus-bootstrap-4.min.js" integrity="sha512-GIuGdzHXXABnYuyFfVnPE5Xd/Ak7gL9XmDnQMF1mIzRGxtdDQZMcd9fWsXKj+dCddOSpArF+tFN1/kdptCT8eA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
-<script>
-    $(document).ready(function() {
-        // $('#records-limit').change(function() {
-        //     $('form').submit();
-        // })
-    });
-</script>
-<script>
-    $(document).ready(function() {
-        $('#user-table').DataTable();
-    });
-</script>
-<script>
-    // $(document).ready(function() {
-    //     $('.datetimepicker').datetimepicker({
-    //         format: 'YYYY-MM-DD HH:mm:ss' // Specify the format of the datetime string
-    //     });
-    // });
-</script>
-<!-- <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script> -->
 <?php include('footer.php'); ?>

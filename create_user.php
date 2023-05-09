@@ -15,9 +15,8 @@ require_once "config.php";
 
 // Define variables and initialize with empty values
 $name = $email = $phone = $designation = $department =  $password = $confirm_password = "";
-// $status = 0;
+// Define variables for error
 $name_err = $email_err = $phone_err = $designation_err = $department_err = $status_err = $password_err = $confirm_password_err = "";
-// $name_err = $password_err = $confirm_password_err = "";
 
 // Processing form data when form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -64,19 +63,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         $phone = trim($_POST["phone"]);
     }
-
+    // Validate email
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $email_err = "Please enter a valid email";
     }
 
-    // Validate phone
+    // Validate designation
     if (empty(trim($_POST["designation"]))) {
         $designation_err = "Please enter a designation.";
     } else {
         $designation = trim($_POST["designation"]);
     }
 
-    // Validate phone
+    // Validate department
     if (empty(trim($_POST["department"]))) {
         $department_err = "Please enter a department.";
     } else {
@@ -106,7 +105,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($name_err) && empty($phone_err) && empty($email_err) && empty($password_err) && empty($confirm_password_err)) {
         if (isset($_POST['status'])) {
             $status = $_POST['status'];
-            // echo "You selected $gender";
         }
         // Prepare an insert statement
         $sql = "INSERT INTO user_manage (`name`, `password`, email, phone, designation, department, `status`) VALUES (:name, :password, :email, :phone, :designation, :department, :status)";
@@ -129,8 +127,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $param_department = $department;
             $param_status = (int)$status;
             // echo $param_status;
-            // exit;
-            $param_password = password_hash($password, PASSWORD_DEFAULT); // Creates a password hash
+
+            // Creates a password hash
+            $param_password = password_hash($password, PASSWORD_DEFAULT); 
 
             // Attempt to execute the prepared statement
             if ($stmt->execute()) {
@@ -151,22 +150,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 ?>
-
-<!-- <!DOCTYPE html>
-<html>
-
-<head>
-    <title>Sign Up</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
-
-    
-</head>
-
-<body>
-     -->
-
-
-
 <div class="container">
     <div class="row">
         <div class="col-sm-2"></div>
@@ -177,7 +160,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
                 <div class="card-body">
                     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="POST">
-
                         <div class="row">
                             <div class="col-lg-4 col-md-4 col-sm-4 form-control-label label-padding">
                                 <label>Name</label>
@@ -190,7 +172,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 </div>
                             </div>
                         </div>
-
 
                         <div class="row">
                             <div class="col-lg-4 col-md-4 col-sm-4 form-control-label label-padding">

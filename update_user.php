@@ -1,5 +1,5 @@
 <?php include('header.php'); ?>
-<link rel="stylesheet" href="css/style.css" type="text/css">
+
 <style type="text/css">
     .row {
         margin: 10px;
@@ -14,7 +14,6 @@ require_once "config.php";
 
 // Define variables and initialize with empty values
 $id = $name = $email = $phone = $designation = $department = $status = $password = $confirm_password = "";
-
 $name_err = $email_err = $phone_err = $designation_err = $department_err = $status_err = $password_err = $confirm_password_err = "";
 
 if (isset($_POST["id"]) && !empty($_POST["id"])) {
@@ -52,7 +51,7 @@ if (isset($_POST["id"]) && !empty($_POST["id"])) {
     } else {
         $department = trim($_POST["department"]);
     }
-
+    // Validate status
     if (isset($_POST["status"]) && !empty($_POST["status"])) {
         $status = $_POST["status"];
     } else {

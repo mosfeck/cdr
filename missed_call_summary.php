@@ -10,7 +10,6 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
     header("location: login.php");
     exit;
 }
-
 $calldate_from = $calldate_to = '';
 $report_type = "Daily";
 if (isset($_POST['submit'])) {
@@ -21,7 +20,6 @@ if (isset($_POST['submit'])) {
 $sql = '';
 $_SESSION['report_type'] = $report_type;
 if (isset($_POST['submit']) && $_POST['submit'] == 'Search') {
-    // print_r($_POST);
     if (isset($_POST['calldate_from']) && !empty($_POST['calldate_from']) && (isset($_POST['calldate_to']) && !empty($_POST['calldate_to']))) {
         if ($_POST['report_type'] == "Daily") {
             $sql = "SELECT date(calldate) `Daily`, 
@@ -62,11 +60,6 @@ $stmt = $pdo->query($sql);
 
 // fetch all rows into array, by default PDO::FETCH_BOTH is used
 $results = $stmt->fetchAll();
-
-// if (!$results) {
-//     die("Query failed: " . $pdo->error);
-// }
-
 ?>
 <div class="container ">
     <div class="row mt-3 mb-5 pb-3">
@@ -105,8 +98,8 @@ $results = $stmt->fetchAll();
                             </div>
                             <div class="col-lg-3 col-md-3 col-sm-3">
                                 <div class="form-group">
-                                    <input type="submit" name="submit" class="btn btn-primary" value="Search">
-                                    <a href="missed_call_summary_export.php" class="btn btn-info text-white">Export</a>
+                                    <input type="submit" name="submit" class="btn btn-primary btn-sm" value="Search">
+                                    <a href="missed_call_summary_export.php" class="btn btn-info btn-sm text-white">Export</a>
                                 </div>
                             </div>
                         </div>
@@ -144,9 +137,8 @@ $results = $stmt->fetchAll();
                                         <td><?php echo $row['apiCall']; ?></td>
                                     </tr>
                                 <?php
-                                    //unset($stmt);
                                 }
-
+                                unset($stmt);
                                 ?>
                         </tbody>
                         <tfoot>
@@ -159,7 +151,6 @@ $results = $stmt->fetchAll();
                     <?php } ?>
                     </table>
                 </div>
-
             </div>
         </div>
     </div>

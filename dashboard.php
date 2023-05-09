@@ -5,7 +5,9 @@
         background-color: #F0FFFF;
         color: #000;
     }
-
+    .widget_2{
+        margin-bottom: 5px;
+    }
     .first-item-color{
         text-align: center;
         background-color: #F5F5DC;
@@ -66,7 +68,6 @@ if ($stmt = $pdo->prepare($sql)) {
 
     // Set parameters
     $param_email = $_SESSION["email"];
-    // echo $param_email;exit;
     // Attempt to execute the prepared statement
     if ($stmt->execute()) {
         if ($stmt->rowCount() == 1) {
@@ -89,28 +90,20 @@ if ($stmt = $pdo->prepare($sql)) {
 // total user
 $sql = "SELECT count(*) as `total_user` from `user_manage`";
 if ($stmt = $pdo->prepare($sql)) {
-    // Bind variables to the prepared statement as parameters
-    // $stmt->bindParam(":email", $param_email, PDO::PARAM_STR);
-
-    // Set parameters
-    // $param_email = $_SESSION["email"];
-    // echo $param_email;exit;
     // Attempt to execute the prepared statement
     if ($stmt->execute()) {
         if ($stmt->rowCount() > 0) {
-            // echo $stmt->rowCount();exit;
             if ($row = $stmt->fetchColumn()) {
                 $total_user = $row;
             }
         } else {
-            //display an error message if email doesn't exit
+            //display an error message if No record found
             echo "No record found";
         }
     } else {
         echo "Opps! something went wrong. Please try again later.";
     }
 }
-// echo $total_user;exit;
 // Missed called
 $sql = "SELECT count(accountcode) as missedCall FROM `cdr` WHERE 
             accountcode = 'MISSEDCALL' AND 
@@ -124,15 +117,15 @@ if ($stmt = $pdo->prepare($sql)) {
                 $missedCall = $row['missedCall'];
             }
         } else {
-            //display an error message if email doesn't exit
-            $email_err = "No account found with that email.";
+            //display an error message if No record found
+            echo "No record found";
         }
     } else {
         echo "Opps! something went wrong. Please try again later.";
     }
 }
 
-// Missed called
+// Api called
 $sql = "SELECT count(apiCalling) as apiCall FROM `cdr` WHERE 
         `apiCalling` > 0  AND 
         calldate BETWEEN '" . date('y-m-d') . " 00:00:00' 
@@ -143,11 +136,10 @@ if ($stmt = $pdo->prepare($sql)) {
         if ($stmt->rowCount() == 1) {
             if ($row = $stmt->fetch()) {
                 $apiCall = $row['apiCall'];
-                // print_r($id);exit;
             }
         } else {
-            //display an error message if email doesn't exit
-            $email_err = "No account found with that email.";
+            //display an error message if No record found
+            echo "No record found";
         }
     } else {
         echo "Opps! something went wrong. Please try again later.";
@@ -177,13 +169,6 @@ if ($stmt = $pdo->prepare($sql)) {
                     </h6>
                     <img class="card-img-alignright" src="img/user-icon.png" alt="user image">
                 </div>
-
-                <!-- <div class="card-body center-item">
-                    <a href="#user-info">
-                        <h5 class="card-title">User Manage</h5>
-                        <img class="card-img-alignright" src="img/user-icon.png" alt="user image">
-                    </a>
-                </div> -->
             </div>
         </div>
         <div class="col-lg-4 col-md-12 col-sm-12 col-12">
@@ -218,7 +203,6 @@ if ($stmt = $pdo->prepare($sql)) {
             <div class="card widget_2 big_icon user-info" id="user-info">
                 <div class="card-body">
                     <h5 class="card-title">User Info</h5>
-
                     <div class="row ">
                         <div class="col-lg-4 col-md-4 col-sm-4 ">
                             <label>Name</label>

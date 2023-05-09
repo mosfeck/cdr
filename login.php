@@ -4,7 +4,7 @@
 
 //check if the user is already logged in, if yes the redirect him to welcome page
 if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
-    header("location: welcome.php");
+    header("location: dashboard.php");
     exit;
 }
 
@@ -12,10 +12,8 @@ if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
 require_once "config.php";
 
 //define variable
-$email = "";
-$password = "";
-$email_err = "";
-$password_err = "";
+$email = $password = "";
+$email_err = $password_err = "";
 
 //processing form data when form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -37,8 +35,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($email_err) && empty($password_err)) {
         //prepare a select statement
         $sql = "select * from user_manage where email=:email";
-
-
         if ($stmt = $pdo->prepare($sql)) {
             // Bind variables to the prepared statement as parameters
             $stmt->bindParam(":email", $param_email, PDO::PARAM_STR);
@@ -53,21 +49,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         $id = $row["id"];
                         $email = $row["email"];
                         $name = $row["name"];
-                        // echo $name;exit;
-                        // print_r($name);exit;
                         $hashed_password = $row["password"];
                         if (password_verify($password, $hashed_password)) {
                             //password is correct, so start a new session
                             session_start();
-
                             //store data in session variables
                             $_SESSION["loggedin"] = true;
                             $_SESSION["id"] = $id;
                             $_SESSION["email"] = $email;
-                            // echo $_SESSION["email"];exit;
                             $_SESSION["name"] = $name;
-                            // echo $_SESSION["name"];exit;
-                            // echo "Login successfuly";
 
                             //redirect user to welcome page
                             header("location: dashboard.php");
@@ -140,7 +130,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <img class="img-fluid" src="img/logon-logo3.png" alt="login image">
                         </div>
                         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
-
                             <div class="form-group <?php echo (!empty($email_err)) ? 'has-error' : ''; ?>">
                                 <div class="row">
                                     <div class="col-md-2">
@@ -148,7 +137,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     </div>
                                     <div class="col-md-10">
                                         <input type="text" name="email" class="form-control col-md-8" value="<?php echo $email; ?>">
-                                        <span class="help-block"><?php echo $email_err; ?></span>
+                                        <span class="help-block text-danger"><?php echo $email_err; ?></span>
                                     </div>
                                 </div>
                             </div>
@@ -159,7 +148,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     </div>
                                     <div class="col-md-10">
                                         <input type="password" name="password" class="form-control">
-                                        <span class="help-block"><?php echo $password_err; ?></span>
+                                        <span class="help-block text-danger"><?php echo $password_err; ?></span>
                                     </div>
                                 </div>
                             </div>
