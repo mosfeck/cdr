@@ -16,7 +16,7 @@
         background-color: #FFFFE0;
     }
     .third-item-color{
-        background-color: #A0D6B4;
+        background-color: #f4fff4;
     }
     .user-info .row{
         margin: 10px 0px;
