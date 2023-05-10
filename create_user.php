@@ -4,9 +4,9 @@
     .row {
         margin: 10px;
     }
-    .card-title{
+    /* .card-title{
         font-size: xx-large;
-    }
+    } */
 </style>
 
 <?php
@@ -250,7 +250,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                             "1" => "Active",
                                             "0" => "Inactive"
                                         );
-
                                         // loop through the options to create the <option> tags
                                         foreach ($status_opt as $key => $status) {
                                             echo "<option value=\"$key\">$status</option>";

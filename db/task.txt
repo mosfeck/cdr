@@ -2,6 +2,6 @@
 - change password to reset password with dropdown (name + email)
 - put gmail in user Management
 - info about the password write under login        ok
-- donot show the data about pagination if no record
-- donot show export if no record
+- donot show the data about pagination if no record      ok
+- donot show export if no record        ok
 - put Total in summary export           ok

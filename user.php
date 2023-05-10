@@ -80,8 +80,8 @@ $result = $pdo->query($sql); {
                                 foreach ($result as $row) { ?>
                                     <tr <?php echo $sl % 2 == 0 ? ' class="table-info"' : 'class="table-success"'; ?>>
                                     <?php if ($row['id'] != 1) { ?>
-                                        <td style="max-width: 60px;"><a href="update_user.php?id=<?php echo $row['id']; ?>" title="Edit"><img src="img/edit.png" alt="edit image" style="width:15%;margin-right: 5px;"></a>
-                                             <a href="delete_user.php?id=<?php echo $row['id']; ?>" onclick="return confirm('Are you sure you want to Delete?')" title="Delete"><img src="img/clear.png" alt="edit image" style="width:15%"></a>
+                                        <td style="max-width: 60px;"><a href="update_user.php?id=<?php echo $row['id']; ?>" title="Edit"><img src="img/edit.png" alt="edit image" style="width:20%;margin-right: 5px;"></a>
+                                             <a href="delete_user.php?id=<?php echo $row['id']; ?>" onclick="return confirm('Are you sure you want to Delete?')" title="Delete"><img src="img/clear.png" alt="edit image" style="width:20%"></a>
                                         </td>
                                         <td><?php echo $sl++; ?></td>
                                         <td><?php echo $row['name']; ?></td>

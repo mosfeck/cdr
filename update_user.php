@@ -5,9 +5,9 @@
         margin: 10px;
     }
 
-    .card-title {
+    /* .card-title {
         font-size: xx-large;
-    }
+    } */
 </style>
 <?php
 session_start();
@@ -28,27 +28,35 @@ if (isset($_POST["id"]) && !empty($_POST["id"])) {
         $email_err = "Please enter a email.";
     } else {
         // Prepare a select statement
-        $sql = "SELECT id FROM user_manage WHERE email = :email";
-
+        $sql = "SELECT * FROM user_manage WHERE id = :id";
+        // Set parameters
+        $param_id = trim($_POST["id"]);
         if ($stmt = $pdo->prepare($sql)) {
             // Bind variables to the prepared statement as parameters
-            $stmt->bindParam(":email", $param_email, PDO::PARAM_STR);
-
-            // Set parameters
-            $param_email = trim($_POST["email"]);
+            $stmt->bindParam(":id", $param_id, PDO::PARAM_STR);
 
             // Attempt to execute the prepared statement
             if ($stmt->execute()) {
                 if ($stmt->rowCount() == 1) {
-                    $email_err = "This email is already taken.";
-                } else {
-                    $email = trim($_POST["email"]);
+                    $row = $stmt->Fetch(PDO::FETCH_ASSOC);
+
+                    if (trim($_POST["email"]) != $row['email']) {
+                        $sql = "SELECT * FROM user_manage WHERE email = '" . $_POST["email"] . "'";
+                        $stmt = $pdo->prepare($sql);
+                        $stmt->bindParam(":email", $param_email, PDO::PARAM_STR);
+                        $stmt->execute();
+                        if ($stmt->rowCount() == 0) {
+                            $param_email = trim($_POST["email"]);
+                            $email = trim($_POST["email"]);
+                        } else {
+                            $email_err = "This email is already taken.";
+                        }
+                    }
                 }
             } else {
                 echo "Oops! Something went wrong. Please try again later.";
             }
         }
-
         // Close statement
         unset($stmt);
     }
