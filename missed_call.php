@@ -87,7 +87,7 @@ $results = $stmt1->fetchAll();
                             <div class="col-lg-3 col-md-3 col-sm-3">
                                 <div class="form-group">
                                     <input type="submit" name="submit" class="btn btn-primary btn-sm" value="Search">
-                                    <a href="missed_call_export.php" class="btn btn-info btn-sm text-white">Export</a>
+                                    <?php if($results){ ?><a href="missed_call_export.php" class="btn btn-info btn-sm text-white">Export</a><?php } ?>
                                 </div>
                             </div>
                         </div>
@@ -129,9 +129,11 @@ $results = $stmt1->fetchAll();
                         <?php } ?>
                     </tbody>
                 </table>
+                <?php if($total_no_of_pages > 0){ ?>
                 <div style='padding: 10px 20px 12px; border-top: dotted 1px #CCC;'>
                     <strong>Page <?php echo $page_no . " of " . $total_no_of_pages; ?></strong>
                 </div>
+
                 <!-- Pagination -->
                 <nav aria-label="Page navigation example mt-5">
                     <ul class="pagination">
@@ -210,6 +212,7 @@ $results = $stmt1->fetchAll();
                         } ?>
                     </ul>
                 </nav>
+                <?php } ?>
             </div>
 
         </div>

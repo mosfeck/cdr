@@ -40,7 +40,7 @@ foreach ($results as $row) {
   );
   fputcsv($output, $lineData);
 }
-$total = array('', $TotalMissedCall, $TotalApiCall);
+$total = array('Total', $TotalMissedCall, $TotalApiCall);
 fputcsv($output, $total);
 // close the output stream and exit
 fclose($output);

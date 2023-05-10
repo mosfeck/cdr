@@ -4,21 +4,54 @@
     .row {
         margin: 10px;
     }
+
     .card-title {
         font-size: xx-large;
     }
 </style>
 <?php
+session_start();
 // Include config file
 require_once "config.php";
-
+if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
+    header("location: login.php");
+    exit;
+}
 // Define variables and initialize with empty values
-$id = $name = $email = $phone = $designation = $department = $status = $password = $confirm_password = "";
-$name_err = $email_err = $phone_err = $designation_err = $department_err = $status_err = $password_err = $confirm_password_err = "";
+$id = $name = $email = $phone = $designation = $department = $status = "";
+$name_err = $email_err = $phone_err = $designation_err = $department_err = $status_err = "";
 
 if (isset($_POST["id"]) && !empty($_POST["id"])) {
     $id = $_POST["id"];
+    // Validate email if dulicate
+    if (empty(trim($_POST["email"]))) {
+        $email_err = "Please enter a email.";
+    } else {
+        // Prepare a select statement
+        $sql = "SELECT id FROM user_manage WHERE email = :email";
 
+        if ($stmt = $pdo->prepare($sql)) {
+            // Bind variables to the prepared statement as parameters
+            $stmt->bindParam(":email", $param_email, PDO::PARAM_STR);
+
+            // Set parameters
+            $param_email = trim($_POST["email"]);
+
+            // Attempt to execute the prepared statement
+            if ($stmt->execute()) {
+                if ($stmt->rowCount() == 1) {
+                    $email_err = "This email is already taken.";
+                } else {
+                    $email = trim($_POST["email"]);
+                }
+            } else {
+                echo "Oops! Something went wrong. Please try again later.";
+            }
+        }
+
+        // Close statement
+        unset($stmt);
+    }
     // Validate name
     if (empty(trim($_POST["name"]))) {
         $name_err = "Please enter a name.";
@@ -32,11 +65,22 @@ if (isset($_POST["id"]) && !empty($_POST["id"])) {
         $phone = trim($_POST["phone"]);
     }
 
-    // if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    //     $email_err = "Please enter a valid email";
-    // } else {
-    //     $email = trim($_POST["email"]);
-    // }
+    // Validate email
+    if (empty(trim($_POST["email"]))) {
+        $email_err = "Please enter a email.";
+    } else {
+        $email = trim($_POST["email"]);
+    }
+
+    if (empty(trim($_POST["email"]))) {
+        $email_err = "Email is required";
+    } else {
+        $email = trim($_POST["email"]);
+        // check if e-mail address is well-formed
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $email_err = "Invalid email format";
+        }
+    }
 
     // Validate designation
     if (empty(trim($_POST["designation"]))) {
@@ -51,6 +95,7 @@ if (isset($_POST["id"]) && !empty($_POST["id"])) {
     } else {
         $department = trim($_POST["department"]);
     }
+
     // Validate status
     if (isset($_POST["status"]) && !empty($_POST["status"])) {
         $status = $_POST["status"];
@@ -59,14 +104,15 @@ if (isset($_POST["id"]) && !empty($_POST["id"])) {
     }
     try {
         // Check input errors before inserting in database
-        if (empty($name_err) && empty($phone_err)) {
+        if (empty($name_err) && empty($phone_err) && empty($email_err)) {
             // Prepare an update statement
-            $sql = "UPDATE user_manage SET `name` = :name, `phone` = :phone, `designation` = :designation, `department` = :department, `status` = :status WHERE id = :id";
+            $sql = "UPDATE user_manage SET `name` = :name, `phone` = :phone, `email` = :email, `designation` = :designation, `department` = :department, `status` = :status WHERE id = :id";
             if ($stmt = $pdo->prepare($sql)) {
                 // Bind variables to the prepared statement as parameters
                 $stmt->bindParam(":id", $param_id);
                 $stmt->bindParam(":name", $param_name);
                 $stmt->bindParam(":phone", $param_phone);
+                $stmt->bindParam(":email", $param_email);
                 $stmt->bindParam(":designation", $param_designation);
                 $stmt->bindParam(":department", $param_department);
                 $stmt->bindParam(":status", $param_status);
@@ -75,6 +121,7 @@ if (isset($_POST["id"]) && !empty($_POST["id"])) {
                 $param_id = $id;
                 $param_name = $name;
                 $param_phone = $phone;
+                $param_email = $email;
                 $param_designation = $designation;
                 $param_department = $department;
                 $param_status = (int)$status;
@@ -165,7 +212,7 @@ if (isset($_POST["id"]) && !empty($_POST["id"])) {
                             <div class="col-lg-8 col-md-8 col-sm-8">
                                 <div class="form-group  <?php echo (!empty($name_err)) ? 'has-error' : ''; ?>">
                                     <input type="text" name="name" class="form-control" value="<?php echo $name; ?>">
-                                    <span class="help-block"><?php echo $name_err; ?></span>
+                                    <span class="help-block text-danger"><?php echo $name_err; ?></span>
                                 </div>
                             </div>
                         </div>
@@ -178,7 +225,20 @@ if (isset($_POST["id"]) && !empty($_POST["id"])) {
                             <div class="col-lg-8 col-md-8 col-sm-8">
                                 <div class="form-group  <?php echo (!empty($phone_err)) ? 'has-error' : ''; ?>">
                                     <input type="text" name="phone" class="form-control" value="<?php echo $phone; ?>">
-                                    <span class="help-block"><?php echo $phone_err; ?></span>
+                                    <span class="help-block text-danger"><?php echo $phone_err; ?></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-4 col-md-4 col-sm-4 form-control-label label-padding">
+                                <label>Email</label>
+                                <span class="text-danger ml-1">*</span>
+                            </div>
+                            <div class="col-lg-8 col-md-8 col-sm-8">
+                                <div class="form-group  <?php echo (!empty($email_err)) ? 'has-error' : ''; ?>">
+                                    <input type="text" name="email" class="form-control" value="<?php echo $email; ?>">
+                                    <span class="help-block text-danger"><?php echo $email_err; ?></span>
                                 </div>
                             </div>
                         </div>
@@ -186,11 +246,12 @@ if (isset($_POST["id"]) && !empty($_POST["id"])) {
                         <div class="row">
                             <div class="col-lg-4 col-md-4 col-sm-4 form-control-label label-padding">
                                 <label>Designation</label>
+                                <span class="text-danger ml-1">*</span>
                             </div>
                             <div class="col-lg-8 col-md-8 col-sm-8">
                                 <div class="form-group  <?php echo (!empty($designation_err)) ? 'has-error' : ''; ?>">
                                     <input type="text" name="designation" class="form-control" value="<?php echo $designation; ?>">
-                                    <span class="help-block"><?php echo $designation_err; ?></span>
+                                    <span class="help-block text-danger"><?php echo $designation_err; ?></span>
                                 </div>
                             </div>
                         </div>
@@ -203,7 +264,7 @@ if (isset($_POST["id"]) && !empty($_POST["id"])) {
                             <div class="col-lg-8 col-md-8 col-sm-8">
                                 <div class="form-group  <?php echo (!empty($department_err)) ? 'has-error' : ''; ?>">
                                     <input type="text" name="department" class="form-control" value="<?php echo $department; ?>">
-                                    <span class="help-block"><?php echo $department_err; ?></span>
+                                    <span class="help-block text-danger"><?php echo $department_err; ?></span>
                                 </div>
                             </div>
                         </div>
@@ -224,7 +285,7 @@ if (isset($_POST["id"]) && !empty($_POST["id"])) {
                                                                 echo 'selected';
                                                             } ?>>Inactive</option>
                                     </select>
-                                    <span class="help-block"><?php echo $status_err; ?></span>
+                                    <span class="help-block text-danger"><?php echo $status_err; ?></span>
                                 </div>
                             </div>
                         </div>

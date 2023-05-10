@@ -148,6 +148,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     </div>
                                     <div class="col-md-10">
                                         <input type="password" name="password" class="form-control">
+                                        <div><small>Password must be more than 6 characters</small></div>
                                         <span class="help-block text-danger"><?php echo $password_err; ?></span>
                                     </div>
                                 </div>

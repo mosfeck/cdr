@@ -10,9 +10,14 @@
 </style>
 
 <?php
+session_start();
 // Include config file
 require_once "config.php";
 
+if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
+    header("location: login.php");
+    exit;
+}
 // Define variables and initialize with empty values
 $name = $email = $phone = $designation = $department =  $password = $confirm_password = "";
 // Define variables for error
@@ -21,7 +26,7 @@ $name_err = $email_err = $phone_err = $designation_err = $department_err = $stat
 // Processing form data when form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    // Validate email
+    // Validate email if dulicate
     if (empty(trim($_POST["email"]))) {
         $email_err = "Please enter a email.";
     } else {
@@ -64,9 +69,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $phone = trim($_POST["phone"]);
     }
     // Validate email
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $email_err = "Please enter a valid email";
-    }
+    if (empty(trim($_POST["email"]))) {
+        $email_err = "Email is required";
+      } else {
+        $email = trim($_POST["email"]);
+        // check if e-mail address is well-formed
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $email_err = "Invalid email format";
+        }
+      }
 
     // Validate designation
     if (empty(trim($_POST["designation"]))) {
@@ -133,7 +144,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             // Attempt to execute the prepared statement
             if ($stmt->execute()) {
-                echo "Sign up successtuly";
+                echo "Sign up successfuly";
                 // Redirect to login page
                 header("location: user.php");
             } else {
@@ -168,7 +179,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div class="col-lg-8 col-md-8 col-sm-8">
                                 <div class="form-group  <?php echo (!empty($name_err)) ? 'has-error' : ''; ?>">
                                     <input type="text" name="name" class="form-control" value="<?php echo $name; ?>">
-                                    <span class="help-block"><?php echo $name_err; ?></span>
+                                    <span class="help-block text-danger"><?php echo $name_err; ?></span>
                                 </div>
                             </div>
                         </div>
@@ -181,7 +192,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div class="col-lg-8 col-md-8 col-sm-8">
                                 <div class="form-group  <?php echo (!empty($email_err)) ? 'has-error' : ''; ?>">
                                     <input type="text" name="email" class="form-control" value="<?php echo $email; ?>">
-                                    <span class="help-block"><?php echo $email_err; ?></span>
+                                    <span class="help-block text-danger"><?php echo $email_err; ?></span>
                                 </div>
                             </div>
                         </div>
@@ -193,8 +204,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             </div>
                             <div class="col-lg-8 col-md-8 col-sm-8">
                                 <div class="form-group  <?php echo (!empty($phone_err)) ? 'has-error' : ''; ?>">
-                                    <input type="text" name="phone" class="form-control" value="<?php echo $phone; ?>">
-                                    <span class="help-block"><?php echo $phone_err; ?></span>
+                                    <input type="text" name="phone" class="form-control"  value="<?php echo $phone; ?>">
+                                    <span class="help-block text-danger"><?php echo $phone_err; ?></span>
                                 </div>
                             </div>
                         </div>
@@ -202,11 +213,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <div class="row">
                             <div class="col-lg-4 col-md-4 col-sm-4 form-control-label label-padding">
                                 <label>Designation</label>
+                                <span class="text-danger ml-1">*</span>
                             </div>
                             <div class="col-lg-8 col-md-8 col-sm-8">
                                 <div class="form-group  <?php echo (!empty($designation_err)) ? 'has-error' : ''; ?>">
                                     <input type="text" name="designation" class="form-control" value="<?php echo $designation; ?>">
-                                    <span class="help-block"><?php echo $designation_err; ?></span>
+                                    <span class="help-block text-danger"><?php echo $designation_err; ?></span>
                                 </div>
                             </div>
                         </div>
@@ -219,7 +231,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div class="col-lg-8 col-md-8 col-sm-8">
                                 <div class="form-group  <?php echo (!empty($department_err)) ? 'has-error' : ''; ?>">
                                     <input type="text" name="department" class="form-control" value="<?php echo $department; ?>">
-                                    <span class="help-block"><?php echo $department_err; ?></span>
+                                    <span class="help-block text-danger"><?php echo $department_err; ?></span>
                                 </div>
                             </div>
                         </div>
@@ -245,7 +257,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         }
                                         ?>
                                     </select>
-                                    <span class="help-block"><?php echo $status_err; ?></span>
+                                    <span class="help-block text-danger"><?php echo $status_err; ?></span>
                                 </div>
                             </div>
                         </div>
@@ -258,7 +270,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div class="col-lg-8 col-md-8 col-sm-8">
                                 <div class="form-group  <?php echo (!empty($password_err)) ? 'has-error' : ''; ?>">
                                     <input type="password" name="password" class="form-control" value="<?php echo $password; ?>">
-                                    <span class="help-block"><?php echo $password_err; ?></span>
+                                    <div><small>Password must be more than 6 characters</small></div>
+                                    <span class="help-block text-danger"><?php echo $password_err; ?></span>
                                 </div>
                             </div>
                         </div>
@@ -271,7 +284,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div class="col-lg-8 col-md-8 col-sm-8">
                                 <div class="form-group  <?php echo (!empty($confirm_password_err)) ? 'has-error' : ''; ?>">
                                     <input type="password" name="confirm_password" class="form-control" value="<?php echo $confirm_password; ?>">
-                                    <span class="help-block"><?php echo $confirm_password_err; ?></span>
+                                    <div><small>Confirm password must match with password</small></div>
+                                    <span class="help-block text-danger"><?php echo $confirm_password_err; ?></span>
                                 </div>
                             </div>
                         </div>

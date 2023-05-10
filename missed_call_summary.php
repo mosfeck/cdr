@@ -99,7 +99,7 @@ $results = $stmt->fetchAll();
                             <div class="col-lg-3 col-md-3 col-sm-3">
                                 <div class="form-group">
                                     <input type="submit" name="submit" class="btn btn-primary btn-sm" value="Search">
-                                    <a href="missed_call_summary_export.php" class="btn btn-info btn-sm text-white">Export</a>
+                                    <?php if($results){ ?><a href="missed_call_summary_export.php" class="btn btn-info btn-sm text-white">Export</a><?php } ?>
                                 </div>
                             </div>
                         </div>

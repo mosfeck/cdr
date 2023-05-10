@@ -79,8 +79,9 @@ $result = $pdo->query($sql); {
                                 $sl = 1;
                                 foreach ($result as $row) { ?>
                                     <tr <?php echo $sl % 2 == 0 ? ' class="table-info"' : 'class="table-success"'; ?>>
+                                    <?php if ($row['id'] != 1) { ?>
                                         <td style="max-width: 60px;"><a href="update_user.php?id=<?php echo $row['id']; ?>" title="Edit"><img src="img/edit.png" alt="edit image" style="width:15%;margin-right: 5px;"></a>
-                                            <?php if ($row['id'] != 1) { ?> <a href="delete_user.php?id=<?php echo $row['id']; ?>" onclick="return confirm('Are you sure you want to Delete?')" title="Delete"><img src="img/clear.png" alt="edit image" style="width:15%"></a><?php } ?>
+                                             <a href="delete_user.php?id=<?php echo $row['id']; ?>" onclick="return confirm('Are you sure you want to Delete?')" title="Delete"><img src="img/clear.png" alt="edit image" style="width:15%"></a>
                                         </td>
                                         <td><?php echo $sl++; ?></td>
                                         <td><?php echo $row['name']; ?></td>
@@ -89,6 +90,7 @@ $result = $pdo->query($sql); {
                                         <td><?php echo isset($row['designation']) ? $row['designation'] : ''; ?></td>
                                         <td><?php echo isset($row['department']) ? $row['department'] : ''; ?></td>
                                         <td><?php echo $row['status'] == 1 ? 'Active' : 'Inactive'; ?></td>
+                                        <?php } ?>
                                     </tr>
                                 <?php } ?>
                             </tbody>
@@ -106,13 +108,4 @@ $result = $pdo->query($sql); {
 // close connection
 unset($pdo);
 ?>
-
-<!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" /> -->
-
-<script>
-    $(document).ready(function() {
-        $('#user-table').DataTable();
-    });
-</script>
-<!-- <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script> -->
 <?php include('footer.php'); ?>
