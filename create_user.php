@@ -153,7 +153,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Close connection
     unset($pdo);
 }
-// unset($_SESSION['success']);
 ?>
 <div class="container">
     <div class="row">

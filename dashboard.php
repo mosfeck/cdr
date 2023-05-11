@@ -309,8 +309,6 @@ if ($stmt = $pdo->prepare($sql)) {
                     </table>
                 </div>
             <?php
-
-            
             // close connection
             unset($pdo);
             ?>

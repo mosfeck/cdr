@@ -85,11 +85,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Attempt to execute the prepared statement
             if ($stmt->execute()) {
                 $success = "Password Updated Successfuly";
-                //password updated successfuly, destroy the session,
-                //and redirect to login page
-                session_destroy();
-                // header("location: login.php");
-                // exit;
             } else {
                 $error = "Oops! Something went wrong. Please try again later.";
             }
