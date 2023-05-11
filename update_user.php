@@ -15,7 +15,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
 }
 // Define variables and initialize with empty values
 $id = $name = $email = $phone = $designation = $department = $status = "";
-$name_err = $email_err = $phone_err = $designation_err = $department_err = $status_err = "";
+$name_err = $email_err = $phone_err = $designation_err = $department_err = $status_err = $error = "";
 
 if (isset($_POST["id"]) && !empty($_POST["id"])) {
     $id = $_POST["id"];
@@ -133,13 +133,14 @@ if (isset($_POST["id"]) && !empty($_POST["id"])) {
                 
                 // Attempt to execute the prepared statement
                 if ($stmt->execute()) {
-                    echo "Record updated successfuly";
+                    $_SESSION['success'] = "Record updated successfuly";
                     // Redirect to login page
                     header("location: user.php");
                 } else {
-                    echo "Something went wrong. Please try again later.";
+                    $error  = "Something went wrong. Please try again later.";
                 }
             }
+            
             // Close statement
             unset($stmt);
         }
@@ -148,9 +149,9 @@ if (isset($_POST["id"]) && !empty($_POST["id"])) {
     }
     // Close connection
     unset($pdo);
+    
 } else {
     try {
-        
         // Check existence of id parameter before processing further
         if (isset($_GET["id"]) && !empty($_GET["id"])) {
             // Get URL parameter
@@ -178,12 +179,12 @@ if (isset($_POST["id"]) && !empty($_POST["id"])) {
                         $status = (int)$row["status"];
                     } else {
                         // URL doesn't contain valid id. Redirect to error page
-                        echo "internal error";
+                        $error = "internal error";
                         //header("location: error.php");
                         exit();
                     }
                 } else {
-                    echo "Oops! Something went wrong. Please try again later.";
+                    $error = "Oops! Something went wrong. Please try again later.";
                 }
             }
             // Close statement
@@ -204,6 +205,9 @@ if (isset($_POST["id"]) && !empty($_POST["id"])) {
             <div class="card">
                 <div class="card-header">
                     <div class="card-title text-center">Edit User</div>
+                    <?php if($error) {?>
+                        <p id="message" class="alert-danger p-2"><?php echo $error; ?></p>
+                    <?php }  ?>
                 </div>
                 <div class="card-body">
                     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="POST">

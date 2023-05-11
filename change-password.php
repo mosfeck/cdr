@@ -34,9 +34,9 @@ require_once "config.php";
 
 //define variables and initialize with empty values
 $user = $new_password = $confirm_password = "";
-$user_err = $new_password_err = $confirm_password_err = "";
+$user_err = $new_password_err = $confirm_password_err = $success = $error = "";
 
-$sql = "SELECT `id`, `name` FROM user_manage";
+$sql = "SELECT `id`, `name`,`email` FROM user_manage where `name`!='Administrator'";
 $stmt = $pdo->prepare($sql);
 $stmt->execute();
 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -70,9 +70,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     //check input errors before updating the database
-    if (empty($new_password_err) && empty($confirm_password_err)) {
+    if (empty($new_password_err) && empty($confirm_password_err) && empty($user_err)) {
         //prepare an update statement
-        $sql = "update user_manage set password=:password where id=:user";
+        $sql = "UPDATE user_manage set password=:password where id=:user";
         if ($stmt = $pdo->prepare($sql)) {
             // Bind variables to the prepared statement as parameters
             $stmt->bindParam(":password", $param_password, PDO::PARAM_STR);
@@ -84,13 +84,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             // Attempt to execute the prepared statement
             if ($stmt->execute()) {
+                $success = "Password Updated Successfuly";
                 //password updated successfuly, destroy the session,
                 //and redirect to login page
                 session_destroy();
-                header("location: login.php");
-                exit;
+                // header("location: login.php");
+                // exit;
             } else {
-                echo "Oops! Something went wrong. Please try again later.";
+                $error = "Oops! Something went wrong. Please try again later.";
             }
         }
         //close statement
@@ -107,6 +108,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="card">
                 <div class="card-header">
                     <div class="card-title text-center">Reset Password</div>
+                    <?php if($success) {?>
+                            <p id="message" class="alert-success p-2"><?php echo $success; ?></p>
+                        <?php } if($error) { ?>
+                            <p id="message" class="alert-danger p-2"><?php echo $error; ?></p>
+                        <?php } ?>
                 </div>
                 <div class="card-body">
                     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
@@ -120,11 +126,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <option value="">Select</option>
                                     <?php 
                                     foreach ($result as $row) {
-                                        echo "<option value='" . $row["id"] . "'>" . $row["name"] . "</option>";
+                                        echo "<option value='" . $row["id"] . "'>" . $row["name"] . ' ('.$row['email'].')' . "</option>";
                                     }
                                     ?>
                                     </select>
-                                    <span class="help-block"><?php echo $user_err; ?></span>
+                                    <span class="help-block text-danger"><?php echo $user_err; ?></span>
                                 </div>
                             </div>
                         </div>    
@@ -135,7 +141,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 </div>
                                 <div class="col-md-8">
                                     <input type="password" name="new_password" class="form-control" value="<?php echo $new_password; ?>">
-                                    <span class="help-block"><?php echo $new_password_err; ?></span>
+                                    <span class="help-block text-danger"><?php echo $new_password_err; ?></span>
                                 </div>
                             </div>
                         </div>
@@ -146,7 +152,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 </div>
                                 <div class="col-md-8">
                                     <input type="password" name="confirm_password" class="form-control">
-                                    <span class="help-block"><?php echo $confirm_password_err; ?></span>
+                                    <span class="help-block text-danger"><?php echo $confirm_password_err; ?></span>
                                 </div>
                             </div>
                         </div>

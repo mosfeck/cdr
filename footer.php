@@ -25,8 +25,6 @@
   }
 </style>
 
-<script src="js/bootstrap.bundle.min.js" ></script>
-<script src="js/jquery.dataTables.js" ></script>
 <footer class="footer mt-auto ">
   <div class="container">
     <div class="footer_left pull-left">
@@ -37,6 +35,9 @@
     </div>
   </div>
 </footer>
+
+<script src="js/bootstrap.bundle.min.js" ></script>
+<script src="js/jquery.dataTables.js" ></script>
 </body>
 
 </html>

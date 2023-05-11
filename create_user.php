@@ -19,7 +19,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
 // Define variables and initialize with empty values
 $name = $email = $phone = $designation = $department = $status = $password = $confirm_password = "";
 // Define variables for error
-$name_err = $email_err = $phone_err = $designation_err = $department_err = $status_err = $password_err = $confirm_password_err = "";
+$name_err = $email_err = $phone_err = $designation_err = $department_err = $status_err = $password_err = $confirm_password_err = $error = "";
 
 // Processing form data when form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -49,7 +49,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 echo "Oops! Something went wrong. Please try again later.";
             }
         }
-
         // Close statement
         unset($stmt);
     }
@@ -115,10 +114,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     // Check input errors before inserting in database
     if (empty($name_err) && empty($phone_err) && empty($email_err) && empty($password_err) && empty($confirm_password_err)) {
-        
         // Prepare an insert statement
         $sql = "INSERT INTO user_manage (`name`, `password`, email, phone, designation, department, `status`) VALUES (:name, :password, :email, :phone, :designation, :department, :status)";
-
         if ($stmt = $pdo->prepare($sql)) {
             // Bind variables to the prepared statement as parameters
             $stmt->bindParam(":name", $param_name, PDO::PARAM_STR);
@@ -136,29 +133,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $param_designation = $designation;
             $param_department = $department;
             $param_status = (int)$status;
-            // echo $param_status;
 
             // Creates a password hash
             $param_password = password_hash($password, PASSWORD_DEFAULT); 
 
             // Attempt to execute the prepared statement
             if ($stmt->execute()) {
-                echo "Sign up successfuly";
-                // Redirect to login page
+                $_SESSION['success'] = "Record Inserted Successfuly";
+                // Redirect to user page
                 header("location: user.php");
             } else {
-                echo "Something went wrong. Please try again later.";
+                $error = "Something went wrong. Please try again later.";
             }
         }
-
+        
         // Close statement
         unset($stmt);
     }
-
     // Close connection
     unset($pdo);
 }
-
+// unset($_SESSION['success']);
 ?>
 <div class="container">
     <div class="row">
@@ -167,6 +162,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="card">
                 <div class="card-header">
                     <div class="card-title text-center">Create User</div>
+                    <?php if($error) {?>
+                        <p id="message" class="alert-danger p-2"><?php echo $error; ?></p>
+                    <?php }  ?>
                 </div>
                 <div class="card-body">
                     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="POST">
@@ -305,8 +303,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 
 </div>
-<!--     
-</body>
 
-</html> -->
 <?php include('footer.php') ?>

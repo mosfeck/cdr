@@ -1,4 +1,5 @@
 <?php
+session_start();
 //include config file
 require_once "config.php";
 
@@ -24,18 +25,19 @@ try {
             // Attempt to execute the prepared statement
             if ($stmt->execute()) {
                 if ($stmt->rowCount() == 1) {
-                    
+                    $_SESSION['success'] = "Record Deleted Successfuly";
                     //redirect user to user page
                     header("location: user.php");
                 } else {
                     //display an error message if id doesn't exit
-                    echo "No account found with that id.";
+                    $_SESSION['error'] = "No account found with that id.";
                 }
             } else {
-                echo "Opps! something went wrong. Please try again later.";
+                $_SESSION['error'] = "Opps! something went wrong. Please try again later.";
             }
         }
         //close statement
+        
         unset($stmt);
     }
     //close connection

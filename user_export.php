@@ -20,7 +20,7 @@ header("Content-Disposition: attachment; filename=\"$filename\"");
 header("Content-Type: text/csv");
 
 
-// echo $sql;
+ob_clean();
 // open the output stream
 $output = fopen('php://output', 'w');
 
@@ -37,7 +37,7 @@ foreach ($results as $row) {
             $row['email'], 
             $row['designation'], 
             $row['department'], 
-            $row['status'], 
+            $row['status'] == 1 ? "Active":"Inactive", 
         ); 
         $sl++;
         fputcsv($output, $lineData);
