@@ -4,9 +4,7 @@
     .row {
         margin: 10px;
     }
-    /* .card-title{
-        font-size: xx-large;
-    } */
+    
 </style>
 
 <?php
@@ -19,7 +17,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
     exit;
 }
 // Define variables and initialize with empty values
-$name = $email = $phone = $designation = $department =  $password = $confirm_password = "";
+$name = $email = $phone = $designation = $department = $status = $password = $confirm_password = "";
 // Define variables for error
 $name_err = $email_err = $phone_err = $designation_err = $department_err = $status_err = $password_err = $confirm_password_err = "";
 
@@ -112,11 +110,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
+    if (isset($_POST['status'])) {
+        $status = $_POST['status'];
+    }
     // Check input errors before inserting in database
     if (empty($name_err) && empty($phone_err) && empty($email_err) && empty($password_err) && empty($confirm_password_err)) {
-        if (isset($_POST['status'])) {
-            $status = $_POST['status'];
-        }
+        
         // Prepare an insert statement
         $sql = "INSERT INTO user_manage (`name`, `password`, email, phone, designation, department, `status`) VALUES (:name, :password, :email, :phone, :designation, :department, :status)";
 
@@ -127,7 +126,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt->bindParam(":phone", $param_phone, PDO::PARAM_STR);
             $stmt->bindParam(":designation", $param_designation, PDO::PARAM_STR);
             $stmt->bindParam(":department", $param_department, PDO::PARAM_STR);
-            $stmt->bindParam(":status", $param_status, PDO::PARAM_STR);
+            $stmt->bindParam(":status", $param_status, PDO::PARAM_INT);
             $stmt->bindParam(":password", $param_password, PDO::PARAM_STR);
 
             // Set parameters

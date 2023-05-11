@@ -40,7 +40,7 @@
                                 <a class="nav-link" href="missed_call.php">Missed Call</a>
                                 <a class="nav-link" href="missed_call_summary.php">Summary</a>
                                 <a class="nav-link" href="user.php">Users</a>
-                                <a class="nav-link" href="change-password.php">Change Password</a>
+                                <a class="nav-link" href="change-password.php">Reset Password</a>
                                 <a class="nav-link" href="logout.php">Logout</a>
                             </div>
                         </div>

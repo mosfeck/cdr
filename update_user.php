@@ -4,10 +4,6 @@
     .row {
         margin: 10px;
     }
-
-    /* .card-title {
-        font-size: xx-large;
-    } */
 </style>
 <?php
 session_start();
@@ -75,12 +71,6 @@ if (isset($_POST["id"]) && !empty($_POST["id"])) {
 
     // Validate email
     if (empty(trim($_POST["email"]))) {
-        $email_err = "Please enter a email.";
-    } else {
-        $email = trim($_POST["email"]);
-    }
-
-    if (empty(trim($_POST["email"]))) {
         $email_err = "Email is required";
     } else {
         $email = trim($_POST["email"]);
@@ -114,16 +104,23 @@ if (isset($_POST["id"]) && !empty($_POST["id"])) {
         // Check input errors before inserting in database
         if (empty($name_err) && empty($phone_err) && empty($email_err)) {
             // Prepare an update statement
-            $sql = "UPDATE user_manage SET `name` = :name, `phone` = :phone, `email` = :email, `designation` = :designation, `department` = :department, `status` = :status WHERE id = :id";
+            $sql = "UPDATE user_manage SET 
+                    `name` = :name, 
+                    `phone` = :phone, 
+                    `email` = :email, 
+                    `designation` = :designation, 
+                    `department` = :department, 
+                    `status` = :status 
+                    WHERE id = :id";
             if ($stmt = $pdo->prepare($sql)) {
                 // Bind variables to the prepared statement as parameters
-                $stmt->bindParam(":id", $param_id);
-                $stmt->bindParam(":name", $param_name);
-                $stmt->bindParam(":phone", $param_phone);
-                $stmt->bindParam(":email", $param_email);
-                $stmt->bindParam(":designation", $param_designation);
-                $stmt->bindParam(":department", $param_department);
-                $stmt->bindParam(":status", $param_status);
+                $stmt->bindParam(":id", $param_id, PDO::PARAM_INT);
+                $stmt->bindParam(":name", $param_name, PDO::PARAM_STR);
+                $stmt->bindParam(":email", $param_email, PDO::PARAM_STR);
+                $stmt->bindParam(":phone", $param_phone, PDO::PARAM_STR);
+                $stmt->bindParam(":designation", $param_designation, PDO::PARAM_STR);
+                $stmt->bindParam(":department", $param_department, PDO::PARAM_STR);
+                $stmt->bindParam(":status", $param_status, PDO::PARAM_INT);
 
                 // Set parameters
                 $param_id = $id;
@@ -133,8 +130,7 @@ if (isset($_POST["id"]) && !empty($_POST["id"])) {
                 $param_designation = $designation;
                 $param_department = $department;
                 $param_status = (int)$status;
-                // echo $param_status;
-                // exit;
+                
                 // Attempt to execute the prepared statement
                 if ($stmt->execute()) {
                     echo "Record updated successfuly";
@@ -154,7 +150,7 @@ if (isset($_POST["id"]) && !empty($_POST["id"])) {
     unset($pdo);
 } else {
     try {
-        // echo $_GET["id"];exit;
+        
         // Check existence of id parameter before processing further
         if (isset($_GET["id"]) && !empty($_GET["id"])) {
             // Get URL parameter
@@ -165,7 +161,6 @@ if (isset($_POST["id"]) && !empty($_POST["id"])) {
                 // Bind variables to the prepared statement as parameters
                 $stmt->bindParam(":id", $param_id);
                 $param_id = $id;
-                // echo $param_id;exit;
                 // Attempt to execute the prepared statement
                 if ($stmt->execute()) {
                     if ($stmt->rowCount() == 1) {
@@ -300,12 +295,10 @@ if (isset($_POST["id"]) && !empty($_POST["id"])) {
 
                         <div class="card-footer">
                             <div class="row">
-                                <!-- <div class="col-lg-4 col-md-4 col-sm-4 form-control-label label-padding"></div> -->
                                 <div class="col-lg-12 col-md-12 col-sm-12">
                                     <div class="form-group center-item">
                                         <input type="hidden" name="id" value="<?php echo $id; ?>" />
                                         <input type="submit" class="btn btn-primary" value="Submit">
-                                        <!-- <p class="mt-2">Already have an account?<a href="login.php"> Login here</a>.</p> -->
                                     </div>
 
                                 </div>
@@ -317,6 +310,5 @@ if (isset($_POST["id"]) && !empty($_POST["id"])) {
         </div>
         <div class="col-sm-2"></div>
     </div>
-
 </div>
 <?php include('footer.php'); ?>

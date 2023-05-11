@@ -16,8 +16,12 @@ $filename =  "Missed-call-summary_" . date('Ymd_His') . ".csv";
 header("Content-Description: File Transfer");
 header("Content-Disposition: attachment; filename=\"$filename\"");
 header("Content-Type: text/csv");
+
+
+ob_clean();
 // open the output stream
 $output = fopen('php://output', 'w');
+
 
 // write the column headers to the CSV file
 fputcsv($output, array($report_type,  "Total Missed Call", "Total API Called"));
@@ -42,6 +46,7 @@ foreach ($results as $row) {
 }
 $total = array('Total', $TotalMissedCall, $TotalApiCall);
 fputcsv($output, $total);
+
 // close the output stream and exit
 fclose($output);
 exit();

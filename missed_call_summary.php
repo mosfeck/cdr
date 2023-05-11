@@ -143,9 +143,9 @@ $results = $stmt->fetchAll();
                         </tbody>
                         <tfoot>
                             <tr>
-                                <td colspan="2">Total</td>
-                                <td><?php echo $TotalMissedCall; ?></td>
-                                <td><?php echo $TotalApiCall; ?></td>
+                                <td colspan="2" class="fw-bold text-danger">Total</td>
+                                <td class="fw-bold text-danger"><?php echo $TotalMissedCall; ?></td>
+                                <td class="fw-bold text-danger"><?php echo $TotalApiCall; ?></td>
                             </tr>
                         </tfoot>
                     <?php } ?>

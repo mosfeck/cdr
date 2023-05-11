@@ -33,11 +33,23 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
 require_once "config.php";
 
 //define variables and initialize with empty values
-$new_password = $confirm_password = "";
-$new_password_err = $confirm_password_err = "";
+$user = $new_password = $confirm_password = "";
+$user_err = $new_password_err = $confirm_password_err = "";
+
+$sql = "SELECT `id`, `name` FROM user_manage";
+$stmt = $pdo->prepare($sql);
+$stmt->execute();
+$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 //processing form data when form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    //validate new password
+    if (empty(trim($_POST["user"]))) {
+        $user_err = "Please select user.";
+    }  else {
+        $user = trim($_POST["user"]);
+    }
+
     //validate new password
     if (empty(trim($_POST["new_password"]))) {
         $new_password_err = "Please enter the new password.";
@@ -60,15 +72,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     //check input errors before updating the database
     if (empty($new_password_err) && empty($confirm_password_err)) {
         //prepare an update statement
-        $sql = "update user_manage set password=:password where id=:id";
+        $sql = "update user_manage set password=:password where id=:user";
         if ($stmt = $pdo->prepare($sql)) {
             // Bind variables to the prepared statement as parameters
             $stmt->bindParam(":password", $param_password, PDO::PARAM_STR);
-            $stmt->bindParam(":id", $param_id, PDO::PARAM_INT);
+            $stmt->bindParam(":user", $param_user, PDO::PARAM_INT);
 
             //Set parameters
             $param_password = password_hash($new_password, PASSWORD_DEFAULT);
-            $param_id = $_SESSION["id"];
+            $param_user = $user;
 
             // Attempt to execute the prepared statement
             if ($stmt->execute()) {
@@ -94,11 +106,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12">
             <div class="card">
                 <div class="card-header">
-                    <div class="card-title text-center">Change Password</div>
+                    <div class="card-title text-center">Reset Password</div>
                 </div>
                 <div class="card-body">
                     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
-                        <div class="form-group <?php echo (!empty($new_password_err)) ? 'has-error' : ''; ?>">
+                    <div class="form-group <?php echo (!empty($user_err)) ? 'has-error' : ''; ?>">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label>User</label>
+                                </div>
+                                <div class="col-md-8">
+                                <select name="user" class="form-control form-select">
+                                    <option value="">Select</option>
+                                    <?php 
+                                    foreach ($result as $row) {
+                                        echo "<option value='" . $row["id"] . "'>" . $row["name"] . "</option>";
+                                    }
+                                    ?>
+                                    </select>
+                                    <span class="help-block"><?php echo $user_err; ?></span>
+                                </div>
+                            </div>
+                        </div>    
+                    <div class="form-group <?php echo (!empty($new_password_err)) ? 'has-error' : ''; ?>">
                             <div class="row">
                                 <div class="col-md-4">
                                     <label>New Password</label>
@@ -126,7 +156,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <div class="center-item">
                                         <div class="form-group">
                                             <input type="submit" class="btn btn-primary center-align" value="Submit">
-                                            <!-- <p class="center-align mt-2">Don't have an account? <a href="create_user.php">Sign up now</a>.</p> -->
                                         </div>
                                     </div>
                                 </div>
@@ -139,25 +168,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2"></div>
     </div>
 </div>
-
-<!-- <div class="wrapper">
-        <h2>Reset Password</h2>
-        <p>Please fill out this form to reset your password.</p>
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post"> 
-            <div class="form-group <?php echo (!empty($new_password_err)) ? 'has-error' : ''; ?>">
-                <label>New Password</label>
-                <input type="password" name="new_password" class="form-control" value="<?php echo $new_password; ?>">
-                <span class="help-block"><?php echo $new_password_err; ?></span>
-            </div>
-            <div class="form-group <?php echo (!empty($confirm_password_err)) ? 'has-error' : ''; ?>">
-                <label>Confirm Password</label>
-                <input type="password" name="confirm_password" class="form-control">
-                <span class="help-block"><?php echo $confirm_password_err; ?></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" class="btn btn-primary" value="Submit">
-                <a class="btn btn-link" href="welcome.php">Cancel</a>
-            </div>
-        </form>
-    </div>     -->
 <?php include('footer.php'); ?>

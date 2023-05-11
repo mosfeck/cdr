@@ -28,7 +28,8 @@ $total_records_per_page = 50;
 if (isset($_POST['submit']) && $_POST['submit'] == 'Search') {
     $sql = "SELECT * from cdr WHERE 1";
     if (isset($_POST['uniqueid']) && !empty($_POST['uniqueid'])) {
-        $sql .= " AND uniqueid like '{$_POST['uniqueid']}' ";
+        $sql .= " AND uniqueid like '%".$_POST['uniqueid']."%' ";
+        // $sql .= " AND uniqueid like '{$_POST['uniqueid']}' ";
     }
     if (isset($_POST['calldate_from']) && !empty($_POST['calldate_from']) && (isset($_POST['calldate_to']) && !empty($_POST['calldate_to']))) {
         $sql .= " AND calldate  BETWEEN '" . $_POST['calldate_from'] . " 00:00:00' and '" . $_POST['calldate_to'] . " 23:59:59' ";

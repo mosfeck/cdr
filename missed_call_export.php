@@ -16,6 +16,7 @@ header("Content-Description: File Transfer");
 header("Content-Disposition: attachment; filename=\"$filename\"");
 header("Content-Type: text/csv");
 
+ob_clean();
 // open the output stream
 $output = fopen('php://output', 'w');
 
