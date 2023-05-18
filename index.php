@@ -109,6 +109,7 @@ $sql = "SELECT count(accountcode) as missedCall FROM `cdr` WHERE
             accountcode = 'MISSEDCALL' AND 
             calldate BETWEEN '" . date('y-m-d') . " 00:00:00' 
             AND '" . date('y-m-d') . " 23:59:59'";
+        // print_r($sql);exit;            
 if ($stmt = $pdo->prepare($sql)) {
     // Attempt to execute the prepared statement
     if ($stmt->execute()) {
@@ -130,6 +131,7 @@ $sql = "SELECT count(apiCalling) as apiCall FROM `cdr` WHERE
         `apiCalling` > 0  AND 
         calldate BETWEEN '" . date('y-m-d') . " 00:00:00' 
         AND '" . date('y-m-d') . " 23:59:59'";
+        // print_r($sql);exit;
 if ($stmt = $pdo->prepare($sql)) {
     // Attempt to execute the prepared statement
     if ($stmt->execute()) {

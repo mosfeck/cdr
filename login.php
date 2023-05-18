@@ -4,7 +4,7 @@
 
 //check if the user is already logged in, if yes the redirect him to welcome page
 if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
-    header("location: dashboard.php");
+    header("location: index.php");
     exit;
 }
 
@@ -60,7 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             $_SESSION["name"] = $name;
 
                             //redirect user to welcome page
-                            header("location: dashboard.php");
+                            header("location: index.php");
                         } else {
                             //display an error message if password is not valid
                             $password_err = "The password you entered was not correct";

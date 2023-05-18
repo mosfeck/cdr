@@ -54,6 +54,7 @@ if (isset($_POST['submit']) && $_POST['submit'] == 'Search') {
     calldate between DATE('y-m-d 00:00:00') AND DATE('y-m-d 23:59:59') 
     GROUP BY `Daily`";
 }
+// print_r($sql);exit;
 $_SESSION['summary_cdr'] = $sql;
 // use the connection here
 $stmt = $pdo->query($sql);
